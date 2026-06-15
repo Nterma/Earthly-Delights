@@ -451,6 +451,22 @@
                 font-size: 2rem;
             }
         }
+    
+        .nav-links a.nav-login-btn {
+            border: 1px solid var(--primary-accent);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a.nav-login-btn:hover {
+            background: var(--primary-accent);
+            color: var(--bg-color);
+        }
+
+        .nav-links a.nav-login-btn::after {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -480,6 +496,7 @@
             <li><a href="about.html">About</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" class="nav-login-btn">Login</a></li>
         </ul>
     </nav>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Earthly Delights</title>
+    <title>Sign Up | Earthly Delights</title>
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -125,6 +125,18 @@
             color: var(--primary-accent);
         }
 
+        .nav-links a.nav-login-btn {
+            border: 1px solid var(--primary-accent);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a.nav-login-btn:hover {
+            background: var(--primary-accent);
+            color: var(--bg-color);
+        }
+
         .main-content {
             margin-top: 120px;
             padding: 4rem 2rem;
@@ -136,33 +148,39 @@
             z-index: 10;
         }
 
-        .login-container {
+        .signup-container {
             background: rgba(26, 10, 22, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 123, 137, 0.3);
             border-radius: 12px;
             padding: 3rem;
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             box-shadow: 0 8px 32px rgba(157, 78, 221, 0.2);
         }
 
-        .login-container h1 {
+        .signup-container h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             text-align: center;
             color: var(--text-light);
         }
 
-        .login-container p {
+        .signup-container p {
             text-align: center;
             color: var(--text-muted);
             margin-bottom: 2rem;
             font-size: 0.95rem;
         }
 
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
+            flex: 1;
         }
 
         label {
@@ -173,6 +191,7 @@
             font-size: 0.9rem;
         }
 
+        input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -186,6 +205,7 @@
             transition: all 0.3s ease;
         }
 
+        input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="password"]:focus {
             outline: none;
@@ -194,30 +214,7 @@
             box-shadow: 0 0 10px rgba(255, 123, 137, 0.3);
         }
 
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-        }
-
-        .remember-forgot input[type="checkbox"] {
-            margin-right: 0.5rem;
-            cursor: pointer;
-        }
-
-        .remember-forgot a {
-            color: var(--primary-accent);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .remember-forgot a:hover {
-            color: var(--tertiary-accent);
-        }
-
-        .login-btn {
+        .signup-btn {
             width: 100%;
             padding: 0.875rem;
             background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
@@ -230,9 +227,10 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-top: 1rem;
         }
 
-        .login-btn:hover {
+        .signup-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255, 123, 137, 0.4);
         }
@@ -257,20 +255,20 @@
             margin: 0 1rem;
         }
 
-        .signup-link {
+        .login-link {
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.9rem;
         }
 
-        .signup-link a {
+        .login-link a {
             color: var(--primary-accent);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
-        .signup-link a:hover {
+        .login-link a:hover {
             color: var(--tertiary-accent);
         }
 
@@ -286,33 +284,22 @@
         }
 
         @media (max-width: 768px) {
-            .login-container {
+            .signup-container {
                 padding: 2rem;
             }
 
-            .login-container h1 {
+            .signup-container h1 {
                 font-size: 2rem;
             }
 
             .main-content {
                 margin-top: 100px;
             }
-        }
-    
-        .nav-links a.nav-login-btn {
-            border: 1px solid var(--primary-accent);
-            padding: 0.35rem 1rem;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
 
-        .nav-links a.nav-login-btn:hover {
-            background: var(--primary-accent);
-            color: var(--bg-color);
-        }
-
-        .nav-links a.nav-login-btn::after {
-            display: none;
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
@@ -343,11 +330,22 @@
     </nav>
 
     <div class="main-content">
-        <div class="login-container">
-            <h1>Welcome Back</h1>
-            <p>Sign in to your Earthly Delights account to explore and shop</p>
+        <div class="signup-container">
+            <h1>Create Account</h1>
+            <p>Join Earthly Delights to start your organic pleasure journey</p>
 
             <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" placeholder="Doe" required>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" placeholder="your@email.com" required>
@@ -358,23 +356,21 @@
                     <input type="password" id="password" placeholder="••••••••" required>
                 </div>
 
-                <div class="remember-forgot">
-                    <label>
-                        <input type="checkbox"> Remember me
-                    </label>
-                    <a href="#">Forgot password?</a>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="••••••••" required>
                 </div>
 
-                <button type="submit" class="login-btn">Sign In</button>
+                <button type="submit" class="signup-btn">Create Account</button>
             </form>
 
             <div class="divider">
-                <span>New to Earthly Delights?</span>
+                <span>Already have an account?</span>
             </div>
 
-            <div class="signup-link">
-                <p>Create an account to get started<br>
-                <a href="signup.html">Sign Up Here →</a></p>
+            <div class="login-link">
+                <p>Sign in to your account<br>
+                <a href="login.html">Sign In Here →</a></p>
             </div>
         </div>
     </div>
@@ -390,11 +386,14 @@
             document.documentElement.style.setProperty('--rhythm-speed', 1 + scrollSpeed / 1000);
         });
 
-        // Form submission logic
+        // Registration form submission logic
         const form = document.querySelector('form');
+        const firstNameInput = document.getElementById('first-name');
+        const lastNameInput = document.getElementById('last-name');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
-        
+        const confirmPasswordInput = document.getElementById('confirm-password');
+
         // Create error/success message element
         const messageDiv = document.createElement('div');
         messageDiv.style.padding = '0.75rem';
@@ -421,48 +420,62 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
+            const firstName = firstNameInput.value.trim();
+            const lastName = lastNameInput.value.trim();
             const email = emailInput.value.trim();
             const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
 
-            if (!email || !password) {
-                showMessage('Please enter both email and password.', true);
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', true);
                 return;
             }
 
             // Show loading state
-            const submitBtn = form.querySelector('.login-btn');
+            const submitBtn = form.querySelector('.signup-btn');
             const originalBtnText = submitBtn.textContent;
-            submitBtn.textContent = 'Signing In...';
+            submitBtn.textContent = 'Registering...';
             submitBtn.disabled = true;
             messageDiv.style.display = 'none';
 
             try {
                 const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
-                    ? `${window.location.origin}/api/auth/login`
-                    : 'http://localhost:5000/api/auth/login';
+                    ? `${window.location.origin}/api/auth/register`
+                    : 'http://localhost:5001/api/auth/register';
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        first_name: firstName,
+                        last_name: lastName
+                    })
                 });
 
                 const data = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Login failed. Please check your credentials.');
+                    throw new Error(data.error || 'Registration failed. Please try again.');
                 }
 
-                // Success! Save token and user details to localStorage
+                // Success! Set token and redirect
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Store registration details locally
+                localStorage.setItem('user', JSON.stringify({
+                    id: data.userId,
+                    email: email,
+                    first_name: firstName,
+                    last_name: lastName
+                }));
 
-                showMessage('Login successful! Redirecting...', false);
+                showMessage('Registration successful! Logging you in...', false);
 
-                // Redirect to accounts page after short delay
                 setTimeout(() => {
                     window.location.href = 'accounts.html';
                 }, 1500);

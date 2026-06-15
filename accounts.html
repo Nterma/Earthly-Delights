@@ -374,6 +374,22 @@
                 grid-column: 1 / -1;
             }
         }
+    
+        .nav-links a.nav-login-btn {
+            border: 1px solid var(--primary-accent);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a.nav-login-btn:hover {
+            background: var(--primary-accent);
+            color: var(--bg-color);
+        }
+
+        .nav-links a.nav-login-btn::after {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -398,6 +414,7 @@
             <li><a href="collection.html">Collection</a></li>
             <li><a href="cart.html">Cart</a></li>
             <li><a href="accounts.html">Account</a></li>
+            <li><a href="login.html" class="nav-login-btn">Login</a></li>
         </ul>
     </nav>
 
@@ -410,8 +427,8 @@
                 <div class="sidebar">
                     <div class="profile-avatar">👤</div>
                     <div>
-                        <div class="profile-name">Alex Rivera</div>
-                        <div class="profile-email">alex@example.com</div>
+                        <div class="profile-name" id="sidebar-name">Alex Rivera</div>
+                        <div class="profile-email" id="sidebar-email">alex@example.com</div>
                     </div>
                     <ul class="sidebar-menu">
                         <li><a href="#profile" class="active">Profile</a></li>
@@ -419,7 +436,7 @@
                         <li><a href="#preferences">Preferences</a></li>
                         <li><a href="#security">Security</a></li>
                     </ul>
-                    <button class="logout-btn">Sign Out</button>
+                    <button class="logout-btn" id="logout-btn">Sign Out</button>
                 </div>
 
                 <!-- Main Content -->
@@ -430,30 +447,30 @@
                         
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" value="Alex" readonly>
+                            <input type="text" id="profile-firstname" value="Alex" readonly>
                         </div>
 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" value="Rivera" readonly>
+                            <input type="text" id="profile-lastname" value="Rivera" readonly>
                         </div>
 
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" value="alex@example.com" readonly>
+                            <input type="email" id="profile-email" value="alex@example.com" readonly>
                         </div>
 
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="tel" value="+1 (555) 123-4567">
+                            <input type="tel" id="profile-phone" value="+1 (555) 123-4567">
                         </div>
 
                         <div class="form-group">
                             <label>Bio</label>
-                            <textarea rows="3">Pleasure enthusiast and explorer. Privacy and discretion are top priorities.</textarea>
+                            <textarea id="profile-bio" rows="3">Pleasure enthusiast and explorer. Privacy and discretion are top priorities.</textarea>
                         </div>
 
-                        <button class="save-btn">Update Profile</button>
+                        <button class="save-btn" id="update-profile-btn">Update Profile</button>
                     </div>
 
                     <!-- Orders Section (hidden by default, shown via JS) -->
@@ -595,6 +612,97 @@
             const scrollSpeed = window.scrollY * 0.5;
             document.documentElement.style.setProperty('--rhythm-speed', 1 + scrollSpeed / 1000);
         });
+
+        // Authentication check & profile loading
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        const apiUrlBase = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+            ? window.location.origin
+            : 'http://localhost:5000';
+
+        // Fetch profile details
+        async function fetchProfile() {
+            try {
+                const response = await fetch(`${apiUrlBase}/api/users/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch profile.');
+                }
+
+                const user = await response.json();
+                
+                // Populate fields
+                document.getElementById('sidebar-name').textContent = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Pleasure Seeker';
+                document.getElementById('sidebar-email').textContent = user.email || '';
+                
+                document.getElementById('profile-firstname').value = user.first_name || '';
+                document.getElementById('profile-lastname').value = user.last_name || '';
+                document.getElementById('profile-email').value = user.email || '';
+                document.getElementById('profile-phone').value = user.phone || '';
+                document.getElementById('profile-bio').value = user.bio || '';
+            } catch (error) {
+                console.error('Profile fetch error:', error);
+                // If token is invalid or expired, clear and redirect
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Update profile
+        const updateBtn = document.getElementById('update-profile-btn');
+        updateBtn.addEventListener('click', async () => {
+            const phone = document.getElementById('profile-phone').value;
+            const bio = document.getElementById('profile-bio').value;
+
+            const originalBtnText = updateBtn.textContent;
+            updateBtn.textContent = 'Updating...';
+            updateBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${apiUrlBase}/api/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        first_name: document.getElementById('profile-firstname').value,
+                        last_name: document.getElementById('profile-lastname').value,
+                        phone,
+                        bio
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update profile.');
+                }
+
+                alert('Profile updated successfully!');
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                updateBtn.textContent = originalBtnText;
+                updateBtn.disabled = false;
+            }
+        });
+
+        // Sign Out
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+
+        // Load profile on start
+        fetchProfile();
     </script>
 </body>
 </html>
