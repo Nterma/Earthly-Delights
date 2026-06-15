@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Earthly Delights</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust 8s infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind 12s infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .main-content {
+            margin-top: 120px;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 120px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .login-container {
+            background: rgba(26, 10, 22, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 123, 137, 0.3);
+            border-radius: 12px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 8px 32px rgba(157, 78, 221, 0.2);
+        }
+
+        .login-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .login-container p {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.875rem;
+            background: rgba(255, 123, 137, 0.05);
+            border: 1px solid rgba(255, 123, 137, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            background: rgba(255, 123, 137, 0.1);
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(255, 123, 137, 0.3);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .remember-forgot input[type="checkbox"] {
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .remember-forgot a {
+            color: var(--primary-accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .remember-forgot a:hover {
+            color: var(--tertiary-accent);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            border: none;
+            border-radius: 8px;
+            color: #0b040a;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 123, 137, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 123, 137, 0.2);
+        }
+
+        .divider span {
+            margin: 0 1rem;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .signup-link a {
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: var(--tertiary-accent);
+        }
+
+        footer {
+            background: rgba(26, 10, 22, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 2rem;
+            }
+
+            .login-container h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                margin-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sensual-bg-container">
+        <svg style="position: absolute; width: 0; height: 0;">
+            <defs>
+                <filter id="liquid-filter">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" />
+                    <feDisplacementMap in="SourceGraphic" scale="30" />
+                </filter>
+            </defs>
+        </svg>
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">🌸 Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="accounts.html">Account</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <div class="login-container">
+            <h1>Welcome Back</h1>
+            <p>Sign in to your Earthly Delights account to explore and shop</p>
+
+            <form>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+
+            <div class="divider">
+                <span>New to Earthly Delights?</span>
+            </div>
+
+            <div class="signup-link">
+                <p>Create an account to get started<br>
+                <a href="accounts.html">Sign Up Here →</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. All rights reserved. | <a href="#" style="color: var(--primary-accent); text-decoration: none;">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        // Smooth scroll animation speed modulation
+        window.addEventListener('scroll', () => {
+            const scrollSpeed = window.scrollY * 0.5;
+            document.documentElement.style.setProperty('--rhythm-speed', 1 + scrollSpeed / 1000);
+        });
+    </script>
+</body>
+</html>

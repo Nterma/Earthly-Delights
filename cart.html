@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | Earthly Delights</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust 8s infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind 12s infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .cart-badge {
+            background: var(--tertiary-accent);
+            color: #0b040a;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        .main-content {
+            margin-top: 120px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-cart h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-cart p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: #0b040a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 123, 137, 0.4);
+        }
+
+        .cart-items {
+            background: rgba(26, 10, 22, 0.5);
+            border: 1px solid rgba(255, 123, 137, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 2rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.1);
+            align-items: center;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 123, 137, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .item-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-details p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+        }
+
+        .item-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 123, 137, 0.05);
+            border: 1px solid rgba(255, 123, 137, 0.2);
+            border-radius: 6px;
+            padding: 0.5rem;
+        }
+
+        .quantity-input button {
+            background: none;
+            border: none;
+            color: var(--primary-accent);
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .quantity-input button:hover {
+            color: var(--tertiary-accent);
+        }
+
+        .quantity-input input {
+            width: 40px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .remove-btn {
+            background: rgba(255, 71, 126, 0.2);
+            border: 1px solid rgba(255, 71, 126, 0.4);
+            color: var(--tertiary-accent);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 71, 126, 0.4);
+        }
+
+        .cart-summary {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .summary-box {
+            background: rgba(26, 10, 22, 0.5);
+            border: 1px solid rgba(255, 123, 137, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.1);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-accent);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            border: none;
+            border-radius: 8px;
+            color: #0b040a;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 123, 137, 0.4);
+        }
+
+        footer {
+            background: rgba(26, 10, 22, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .item-controls {
+                grid-column: 1 / -1;
+                margin-top: 1rem;
+            }
+
+            .cart-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sensual-bg-container">
+        <svg style="position: absolute; width: 0; height: 0;">
+            <defs>
+                <filter id="liquid-filter">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" />
+                    <feDisplacementMap in="SourceGraphic" scale="30" />
+                </filter>
+            </defs>
+        </svg>
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">🌸 Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li style="position: relative;"><a href="cart.html">Cart</a><span class="cart-badge">3</span></li>
+            <li><a href="accounts.html">Account</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="page-title">Your Shopping Cart</h1>
+
+        <div class="cart-container">
+            <div id="cart-content">
+                <!-- Cart items will be displayed here -->
+                <div class="cart-items">
+                    <div class="cart-item">
+                        <div class="item-image">🍆</div>
+                        <div class="item-details">
+                            <h3>The Imperial Eggplant</h3>
+                            <p>Premium deep penetration luxury</p>
+                            <div class="item-price">$89.99</div>
+                        </div>
+                        <div class="item-controls">
+                            <div class="quantity-input">
+                                <button>−</button>
+                                <input type="number" value="1" min="1">
+                                <button>+</button>
+                            </div>
+                            <button class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="item-image">🥒</div>
+                        <div class="item-details">
+                            <h3>The Couples' Cucumber</h3>
+                            <p>Synchronized pleasure for two</p>
+                            <div class="item-price">$79.99</div>
+                        </div>
+                        <div class="item-controls">
+                            <div class="quantity-input">
+                                <button>−</button>
+                                <input type="number" value="1" min="1">
+                                <button>+</button>
+                            </div>
+                            <button class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="item-image">🍑</div>
+                        <div class="item-details">
+                            <h3>The Silky Peach</h3>
+                            <p>Soft external luxury and intimacy</p>
+                            <div class="item-price">$69.99</div>
+                        </div>
+                        <div class="item-controls">
+                            <div class="quantity-input">
+                                <button>−</button>
+                                <input type="number" value="2" min="1">
+                                <button>+</button>
+                            </div>
+                            <button class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <div></div>
+                    <div class="summary-box">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>$309.96</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span>$9.99</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span>$25.68</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Total:</span>
+                            <span>$345.63</span>
+                        </div>
+                        <button class="checkout-btn">Proceed to Checkout</button>
+                        <a href="collection.html" class="cta-btn" style="display: block; text-align: center; margin-top: 1rem;">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. All rights reserved. | <a href="#" style="color: var(--primary-accent); text-decoration: none;">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        // Cart functionality
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.cart-item').remove();
+            });
+        });
+
+        document.querySelectorAll('.quantity-input button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                if (this.textContent === '−') {
+                    input.value = Math.max(1, parseInt(input.value) - 1);
+                } else {
+                    input.value = parseInt(input.value) + 1;
+                }
+            });
+        });
+
+        // Smooth scroll animation
+        window.addEventListener('scroll', () => {
+            const scrollSpeed = window.scrollY * 0.5;
+            document.documentElement.style.setProperty('--rhythm-speed', 1 + scrollSpeed / 1000);
+        });
+    </script>
+</body>
+</html>
