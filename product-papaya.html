@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Exotic Papaya | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+        .sensual-bg-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: var(--bg-color); overflow: hidden; filter: url(#liquid-filter); }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 4, 10, 0.6); z-index: -1; backdrop-filter: blur(20px); }
+        .fluid-shape { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.8; mix-blend-mode: screen; }
+        .shape-rhythm { width: 45vw; height: 45vw; background: var(--secondary-accent); top: -10%; left: -10%; animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+        .shape-curve { width: 50vw; height: 40vw; background: var(--primary-accent); bottom: -20%; right: -10%; animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+        .shape-pulse { width: 35vw; height: 35vw; background: var(--tertiary-accent); top: 40%; left: 30%; animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+
+        @keyframes thrust { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20vw, 20vh) scale(1.2); } }
+        @keyframes grind { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(-15vw, 15vh) rotate(45deg); } }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.3); opacity: 0.5; } }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; background: rgba(11, 4, 10, 0.85); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(255, 123, 137, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary-accent); text-decoration: none; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; position: relative; }
+        .nav-links a:hover { color: var(--primary-accent); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary-accent); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 10; }
+        header { margin-top: 120px; padding: 3rem 2rem; text-align: center; }
+        .page-title { font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .product-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin: 3rem 0; background: rgba(26, 10, 22, 0.5); padding: 2rem; border-radius: 20px; border: 1px solid rgba(255, 123, 137, 0.1); backdrop-filter: blur(10px); }
+        .product-image { text-align: center; }
+        .product-image img { max-width: 100%; height: auto; border-radius: 15px; }
+        .product-details { display: flex; flex-direction: column; gap: 1.5rem; }
+        .detail-section { background: rgba(157, 78, 221, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 3px solid var(--primary-accent); }
+        .detail-section h3 { color: var(--primary-accent); margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .spec-item { background: rgba(255, 123, 137, 0.1); padding: 1rem; border-radius: 8px; text-align: center; }
+        .spec-label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .spec-value { color: var(--primary-accent); font-size: 1.3rem; font-weight: 600; margin-top: 0.5rem; }
+        .rating { display: flex; gap: 0.3rem; font-size: 1.5rem; margin: 1rem 0; }
+        .review-count { color: var(--text-muted); font-size: 0.9rem; }
+
+        section { margin: 3rem 0; position: relative; z-index: 10; }
+        .section-title { font-size: 2rem; color: var(--text-light); margin-bottom: 1.5rem; border-bottom: 2px solid rgba(255, 123, 137, 0.3); padding-bottom: 1rem; }
+        .content-box { background: rgba(26, 10, 22, 0.6); padding: 2rem; border-radius: 15px; border: 1px solid rgba(255, 123, 137, 0.1); margin-bottom: 2rem; }
+        .content-box p { margin-bottom: 1rem; line-height: 1.8; color: var(--text-light); }
+        .content-box strong { color: var(--primary-accent); }
+        .naughty-highlight { background: rgba(255, 123, 137, 0.15); padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--tertiary-accent); font-weight: 600; }
+
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .tip-card { background: linear-gradient(135deg, rgba(255, 123, 137, 0.1), rgba(157, 78, 221, 0.1)); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(255, 123, 137, 0.2); }
+        .tip-card h4 { color: var(--primary-accent); margin-bottom: 0.7rem; font-size: 1.1rem; }
+        .tip-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
+
+        .cta-section { text-align: center; padding: 2rem; background: rgba(157, 78, 221, 0.1); border-radius: 15px; border: 1px solid rgba(157, 78, 221, 0.3); margin: 3rem 0; }
+        .cta-btn { display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3); text-decoration: none; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary-accent); text-decoration: none; font-weight: 600; margin: 2rem 0; transition: gap 0.3s ease; }
+        .back-link:hover { gap: 1rem; }
+
+        footer { background: rgba(11, 4, 10, 0.95); border-top: 1px solid rgba(255, 123, 137, 0.2); padding: 3rem 2rem; text-align: center; color: var(--text-muted); position: relative; z-index: 10; margin-top: 3rem; }
+
+        @media (max-width: 768px) {
+            .product-hero { grid-template-columns: 1fr; }
+            .page-title { font-size: 2rem; }
+            .spec-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+
+        <header>
+            <h1 class="page-title">The Exotic Papaya ✨</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 1rem;">Unique texture, sensual shape, and absolutely incredible sensations. A truly one-of-a-kind experience.</p>
+        </header>
+
+        <div class="product-hero">
+            <div class="product-image">
+                <img src="assets/images/papaya.svg" alt="The Exotic Papaya" style="max-width: 100%; height: auto;">
+            </div>
+
+            <div class="product-details">
+                <div class="detail-section">
+                    <h3>✨ The Sensual Wonder</h3>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="review-count">4.9 out of 5 (563 luxury enthusiast reviews)</p>
+                    <p style="color: var(--text-light); margin-top: 1rem;">"This is luxury. Pure luxury. I didn't know pleasure could feel this refined." - Satisfied Connoisseur</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 Specifications</h3>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Length</div>
+                            <div class="spec-value">6.5"</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Shape</div>
+                            <div class="spec-value">Ergonomic</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Texture</div>
+                            <div class="spec-value">Silky Smooth</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Vibe</div>
+                            <div class="spec-value">Luxury Experience</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💰 Price & Availability</h3>
+                    <p style="color: var(--primary-accent); font-size: 1.5rem; font-weight: bold;">$18.99</p>
+                    <p style="color: #64c864; margin-top: 0.5rem;">✓ In Stock (Premium Selection)</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">✨ Luxury Meets Nature</h2>
+            <div class="content-box">
+                <p>The Exotic Papaya is <span class="naughty-highlight">pure sensual luxury wrapped in organic form</span>. This isn't just another produce option—it's a carefully curated luxury experience designed for people who appreciate the finer points of pleasure.</p>
+                
+                <p>The <span class="naughty-highlight">unique ergonomic shape molds perfectly to your body's natural curves</span>. Unlike rigid toys, the Papaya's natural composition means it warms to your body temperature, creating an incredibly intimate sensation. The smooth, velvety texture is <span class="naughty-highlight">unmatched by any silicone alternative</span>—it's genuinely sensual in a way that feels completely different.</p>
+
+                <p>Hand-selected from our premium collection for optimal texture and shape, each Exotic Papaya is verified for that perfect balance between firmness and give. The result? A pleasure experience that feels simultaneously indulgent and completely natural. This is what luxury feels like.</p>
+
+                <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 123, 137, 0.1); border-left: 3px solid var(--primary-accent); border-radius: 5px;"><strong>The Luxury Factor:</strong> People who use the Exotic Papaya report feeling like they've invested in themselves. Not just physically, but emotionally. There's something incredibly empowering about choosing luxury for your own pleasure. You deserve it.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💎 Why Luxury Seekers Adore This</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>✨ Unparalleled Smoothness</h4>
+                    <p>The texture is genuinely exceptional. Silky, smooth, sensual. Nothing manufactured can replicate this.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎯 Ergonomic Perfection</h4>
+                    <p>The shape adapts to your body. It feels custom-made for your pleasure. That's the magic of organic form.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🌡️ Thermal Intimacy</h4>
+                    <p>It warms to your body temperature, creating an incredibly intimate sensation. It becomes part of you.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💫 Sophisticated Pleasure</h4>
+                    <p>There's something refined about choosing the natural option. It feels intelligent, educated, luxurious.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎁 The Self-Care Element</h4>
+                    <p>Using this feels like investing in yourself. Because you are. Your pleasure matters. Your luxury matters.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>👑 Connoisseur Choice</h4>
+                    <p>People in the know choose the Papaya. It's recognized among luxury pleasure enthusiasts as THE choice.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎯 The Luxury Experience Guide</h2>
+            <div class="content-box">
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">Setting the Scene (Luxury Preparation):</h3>
+                <p>🕯️ <strong>Create your luxury space.</strong> Candles, music, lighting that makes you feel powerful and beautiful. Environment matters.</p>
+                <p>🛁 <strong>Ritual cleansing.</strong> Not just washing—a mindful cleansing ritual. This is self-care. Honor it.</p>
+                <p>💧 <strong>Premium lube selection.</strong> Water-based, high-quality. You're worth the good stuff.</p>
+                <p>⏰ <strong>Give yourself TIME.</strong> No rush. This is your luxury experience. Savor every moment.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">During (Sensual Immersion):</h3>
+                <p>🎵 <strong>Engage all senses.</strong> Feel the texture, hear the ambient sound, be present with yourself.</p>
+                <p>💫 <strong>Explore slowly.</strong> The Papaya reveals different sensations at different speeds. Slow exploration = maximum pleasure.</p>
+                <p>😌 <strong>Be present with yourself.</strong> This is about YOU. Your pleasure. Your luxury. Own it.</p>
+                <p>🌊 <strong>Feel the warmth.</strong> As it warms to your body, notice how intimate that feels. That's the luxury.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">After (Luxurious Recovery):</h3>
+                <p>🧖 <strong>Extended self-care.</strong> Bath, moisturizer, time for yourself. This recovery is part of the luxury.</p>
+                <p>📝 <strong>Reflect on the experience.</strong> Journal, meditate, or just sit with how good you feel.</p>
+                <p>💖 <strong>Honor your pleasure.</strong> You just invested in yourself. That's beautiful. That matters.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💬 Real Luxury Experiences</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "It's Not Just Pleasure, It's Self-Love"</h4>
+                    <p><strong>- Victoria R., San Francisco, CA</strong><br>"I hesitated about the price, but this changed my perspective on pleasure and self-worth. Using this makes me feel luxurious. It's changed how I treat myself."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Refined Pleasure"</h4>
+                    <p><strong>- Alexis T., Boston, MA</strong><br>"After years of toys, I tried the Papaya. The texture alone is worth it, but the ergonomic shape? Perfection. This is luxury. I'm a connoisseur now."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Investment in Myself"</h4>
+                    <p><strong>- Morgan L., Seattle, WA</strong><br>"I thought I didn't need to spend this much on pleasure. I was wrong. This changed everything about how I value my own satisfaction. Absolutely transformative."</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">❓ Luxury Enthusiast FAQs</h2>
+            <div class="content-box">
+                <p><strong style="color: var(--primary-accent);">Q: Is it worth the price?</strong><br>A: If you appreciate luxury, yes. The texture, the ergonomics, the experience—it's genuinely different. Investing in your pleasure is investing in yourself.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: How long does it last?</strong><br>A: Refrigerated, 5-7 days easily. With care, you can often get multiple sessions. Treat it with respect, and it'll reward you.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Does it really warm to body temperature?</strong><br>A: Absolutely. Within minutes, it becomes comfortably warm. That intimacy is part of the luxury experience.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: How is this different from the Peach?</strong><br>A: Peach is external pleasure and softness. Papaya is internal luxury—smoother, more ergonomic, longer lasting. Different experiences entirely.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Should I buy this or save for something else?</strong><br>A: Your pleasure is worth the investment. There's nothing else like this. Once you experience the Papaya, other options feel ordinary by comparison.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Is the texture really that different?</strong><br>A: Yes. Genuinely. People are shocked by how different organic texture feels compared to silicone. It's an experience upgrade.</p>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">Invest in Your Luxury ✨</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">You deserve pleasure that feels as refined as you are. Experience the difference.</p>
+            <button class="cta-btn" onclick="alert('Add to cart functionality coming soon! 😉')">Add to Cart - $18.99</button>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">✓ Premium luxury experience | ✓ Unmatched texture and comfort | ✓ Investment in yourself | ✓ Discreet luxury delivery</p>
+        </div>
+
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            const minSpeed = 1;
+            const maxSpeed = 3;
+            const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+            document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+        });
+    </script>
+</body>
+</html>

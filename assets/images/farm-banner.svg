@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+  <defs>
+    <linearGradient id="farmBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3d7a3d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2d5a2d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a3d1a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#farmBg)"/>
+  <circle cx="150" cy="150" r="50" fill="#4d7a2e"/>
+  <circle cx="300" cy="200" r="45" fill="#5a8a3d"/>
+  <circle cx="450" cy="120" r="55" fill="#4d7a2e"/>
+  <circle cx="600" cy="180" r="48" fill="#5a8a3d"/>
+  <circle cx="750" cy="140" r="52" fill="#4d7a2e"/>
+  <circle cx="900" cy="190" r="46" fill="#5a8a3d"/>
+  <circle cx="1050" cy="130" r="54" fill="#4d7a2e"/>
+  <line x1="0" y1="300" x2="1200" y2="300" stroke="#1a3d1a" stroke-width="3"/>
+  <text x="600" y="350" font-size="36" font-family="Playfair Display, serif" fill="#d0a3c2" text-anchor="middle" font-weight="bold">Farm Fresh Harvest</text>
+</svg>

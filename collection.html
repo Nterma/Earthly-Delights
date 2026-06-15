@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Collection | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: rgba(26, 10, 22, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: rgba(255, 123, 137, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 123, 137, 0.2);
+        }
+
+        .product-card:hover p[style*="opacity: 0"] {
+            opacity: 1 !important;
+        }
+
+        .naughty-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 123, 137, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(255, 123, 137, 0.8); }
+        }
+
+        .product-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-info {
+            padding: 2rem;
+        }
+
+        .product-name {
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .product-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-specs {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 123, 137, 0.1);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3);
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5);
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="page-title">Our Complete Collection</h1>
+        <p class="page-subtitle">Handpicked selections for every preference and experience level. From beginner to expert, we've got the perfect produce for you.</p>
+    </header>
+
+    <section>
+        <div style="margin-bottom: 3rem; border-radius: 15px; overflow: hidden;">
+            <img src="assets/images/farm-banner.svg" alt="Farm to Table" style="width: 100%; height: 400px; object-fit: cover;">
+        </div>
+
+        <div class="products-grid">
+            <div class="product-card reveal" style="transition-delay: 0.1s;">
+                <img src="assets/images/eggplant.svg" alt="The Imperial Eggplant" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Imperial Eggplant</h3>
+                    <p class="product-desc">Thick, perfectly curved, heavy in the hand. A real show-stopper! 👑</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Deep penetration, firm grip<br>
+                        <strong>Length:</strong> 8-10 inches | <strong>Girth:</strong> XL
+                    </div>
+                    <span class="naughty-badge">⭐ Most Popular</span>
+                    <a href="product-eggplant.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.2s;">
+                <img src="assets/images/cucumber.svg" alt="The Classic Cucumber" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Classic Cucumber</h3>
+                    <p class="product-desc">Long, naturally textured, reliable and cooling. The trusty sidekick. 💚</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Smooth gliding, temperature play<br>
+                        <strong>Length:</strong> 10-12 inches | <strong>Girth:</strong> M-L
+                    </div>
+                    <span class="naughty-badge">💑 Couples Choice</span>
+                    <a href="product-cucumber.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.3s;">
+                <img src="assets/images/peach.svg" alt="The Velvet Peach" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Velvet Peach</h3>
+                    <p class="product-desc">Soft, fuzzy texture perfect for external play. Pure bliss, naturally. 🍑</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> External stimulation, couples<br>
+                        <strong>Size:</strong> Medium | <strong>Texture:</strong> Ultra-Soft
+                    </div>
+                    <span class="naughty-badge">😘 Silky Smooth</span>
+                    <a href="product-peach.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.4s;">
+                <img src="assets/images/melon.svg" alt="The Bitter Melon" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Bitter Melon</h3>
+                    <p class="product-desc">Intensely ribbed for those who crave deep texture. Not for the faint of heart! 🔥</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Ribbed sensation, intense play<br>
+                        <strong>Length:</strong> 8-9 inches | <strong>Texture:</strong> Heavily Ribbed
+                    </div>
+                    <span class="naughty-badge">🔥 Advanced Only</span>
+                    <a href="product-melon.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.5s;">
+                <img src="assets/images/zucchini.svg" alt="The Zucchini Dream" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Zucchini Dream</h3>
+                    <p class="product-desc">Smooth, tapering design with subtle ridges. Perfect for beginners and enthusiasts alike. 💚</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Beginner-friendly, couples<br>
+                        <strong>Length:</strong> 7-8 inches | <strong>Girth:</strong> M
+                    </div>
+                    <span class="naughty-badge">👶 Beginner Friendly</span>
+                    <a href="product-zucchini.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.6s;">
+                <img src="assets/images/carrot.svg" alt="The Carrot Companion" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Carrot Companion</h3>
+                    <p class="product-desc">Naturally tapered for versatile pleasure. Works great for couples play too! 🥕</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Tapered sensation, couples<br>
+                        <strong>Length:</strong> 6-8 inches | <strong>Shape:</strong> Tapered
+                    </div>
+                    <span class="naughty-badge">💑 Couples Play</span>
+                    <a href="product-carrot.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.7s;">
+                <img src="assets/images/plantain.svg" alt="The Plantain Power" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Plantain Power</h3>
+                    <p class="product-desc">Firm, substantial, and boldly curved. For those who appreciate a real statement piece. 💛</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Deep play, firm grip<br>
+                        <strong>Length:</strong> 10-12 inches | <strong>Girth:</strong> XL
+                    </div>
+                    <span class="naughty-badge">💪 Maximum Size</span>
+                    <a href="product-plantain.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.8s;">
+                <img src="assets/images/papaya.svg" alt="The Papaya Paradise" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Papaya Paradise</h3>
+                    <p class="product-desc">Smooth, tropical textures with a unique shape. Perfect for exploration and discovery! 🧡</p>
+                    <div class="product-specs">
+                        <strong>Best for:</strong> Exploration, temperature play<br>
+                        <strong>Size:</strong> Medium | <strong>Texture:</strong> Smooth
+                    </div>
+                    <span class="naughty-badge">✨ Exotic Choice</span>
+                    <a href="product-papaya.html" class="cta-btn" style="display: inline-block; text-decoration: none; color: white; border-radius: 50px; padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); font-weight: 600; transition: all 0.3s ease;">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reveals = document.querySelectorAll(".reveal");
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => revealOnScroll.observe(reveal));
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.offsetHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                
+                const minSpeed = 1;
+                const maxSpeed = 3;
+                const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+                document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+            });
+        });
+    </script>
+</body>
+</html>
+
+<script>
+    (function(){
+        const placeholderSVG = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='%231a0a16'/><text x='50%' y='50%' fill='%23d0a3c2' font-family='Montserrat, sans-serif' font-size='28' text-anchor='middle' dominant-baseline='middle'>Image unavailable</text></svg>");
+        function applyFallback(img){
+            if(img._fallbackApplied) return;
+            img._fallbackApplied = true;
+            img.src = 'data:image/svg+xml;utf8,' + placeholderSVG;
+            img.style.objectFit = 'cover';
+        }
+        try{
+            document.querySelectorAll('img').forEach(img => img.addEventListener('error', ()=>applyFallback(img)));
+            const mo = new MutationObserver(mutations=>{
+                mutations.forEach(m=>{
+                    m.addedNodes.forEach(node=>{
+                        if(node && node.tagName === 'IMG') node.addEventListener('error', ()=>applyFallback(node));
+                        else if(node && node.querySelectorAll) node.querySelectorAll('img').forEach(i=>i.addEventListener('error', ()=>applyFallback(i)));
+                    });
+                });
+            });
+            mo.observe(document.body, {childList: true, subtree: true});
+        }catch(e){
+            console.warn('Image fallback init failed', e);
+        }
+    })();
+</script>

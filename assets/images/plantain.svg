@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="plantainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c4a747;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7a6f33;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="#0b040a"/>
+  <path d="M 280 120 Q 350 150 380 300 Q 360 450 320 520" stroke="url(#plantainGrad)" stroke-width="100" fill="none" stroke-linecap="round"/>
+  <ellipse cx="320" cy="160" rx="45" ry="35" fill="#9a8f55"/>
+  <ellipse cx="330" cy="240" rx="48" ry="38" fill="#9a8f55" opacity="0.8"/>
+  <text x="400" y="550" font-size="24" font-family="Montserrat, sans-serif" fill="#d0a3c2" text-anchor="middle">The Plantain Power</text>
+</svg>

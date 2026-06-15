@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Imperial Eggplant | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            margin: 3rem 0;
+            background: rgba(26, 10, 22, 0.5);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .product-image {
+            text-align: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .detail-section {
+            background: rgba(157, 78, 221, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-accent);
+        }
+
+        .detail-section h3 {
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .spec-item {
+            background: rgba(255, 123, 137, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .spec-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spec-value {
+            color: var(--primary-accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .review-count {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        section {
+            margin: 3rem 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 123, 137, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .content-box {
+            background: rgba(26, 10, 22, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-box p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .content-box strong {
+            color: var(--primary-accent);
+        }
+
+        .naughty-highlight {
+            background: rgba(255, 123, 137, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--tertiary-accent);
+            font-weight: 600;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, rgba(255, 123, 137, 0.1), rgba(157, 78, 221, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 137, 0.2);
+        }
+
+        .tip-card h4 {
+            color: var(--primary-accent);
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
+
+        .tip-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(157, 78, 221, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            margin: 3rem 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3);
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin: 2rem 0;
+            transition: gap 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+
+        <header>
+            <h1 class="page-title">The Imperial Eggplant 👑</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 1rem;">The ultimate statement piece for serious pleasure-seekers</p>
+        </header>
+
+        <div class="product-hero">
+            <div class="product-image">
+                <img src="assets/images/eggplant.svg" alt="The Imperial Eggplant" style="max-width: 100%; height: auto;">
+            </div>
+
+            <div class="product-details">
+                <div class="detail-section">
+                    <h3>⭐ The Crown Jewel</h3>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="review-count">4.9 out of 5 (847 reviews)</p>
+                    <p style="color: var(--text-light); margin-top: 1rem;">"Absolutely life-changing. Worth every penny." - Happy Customer 🔥</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 Specifications</h3>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Length</div>
+                            <div class="spec-value">9.5"</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Girth</div>
+                            <div class="spec-value">XL</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">1.2 lbs</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Firmness</div>
+                            <div class="spec-value">Solid</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💰 Price & Availability</h3>
+                    <p style="color: var(--primary-accent); font-size: 1.5rem; font-weight: bold;">$24.99</p>
+                    <p style="color: #64c864; margin-top: 0.5rem;">✓ In Stock (Ships within 24 hours)</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">🍆 About This Beast</h2>
+            <div class="content-box">
+                <p>Let's be real: The Imperial Eggplant is <span class="naughty-highlight">not for the faint of heart</span>. This absolute unit of produce is what happens when Mother Nature decides to create the perfect deep-penetration companion. We're talking thick, curved, HEAVY—the kind of presence that makes a statement without saying a word.</p>
+                
+                <p>Handpicked from our partner farms in California, each Imperial Eggplant is individually inspected for optimal <span class="naughty-highlight">girth, weight, and curvature</span>. This isn't your garden-variety vegetable—it's been specifically selected for ergonomic perfection and maximum satisfaction. The natural curve follows your body's contours perfectly, and that weight? Pure bliss for those who like to feel in control.</p>
+
+                <p>The skin is firm yet smooth, with a natural texture that feels absolutely divine. You could spend hours just exploring the subtle ridges and curves. And the <span class="naughty-highlight">perfect length</span> means deep, satisfying penetration without any uncomfortable awkwardness. It's science. It's nature. It's <span class="naughty-highlight">pure magic</span>.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💪 Why People Absolutely Lose It Over This</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🎯 Precision Design</h4>
+                    <p>The natural curve hits exactly the right angle every single time. No adjustment needed. Just pure, satisfying pleasure from the very first moment.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💎 Durability</h4>
+                    <p>Unlike silicone toys, this stays firm and doesn't degrade. Fresh produce = naturally perfect firmness maintained throughout. Zero complaints.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🌿 100% Organic & Safe</h4>
+                    <p>No weird chemicals, no off-gassing, no mystery materials. Just pure, organic eggplant. Your body will thank you. Your pleasure will thank you more.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔥 Temperature Play</h4>
+                    <p>Refrigerate for cooling sensations or leave at room temp for warmth. The natural conductivity means temperature changes are FELT. Incredible.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>👑 Status Symbol</h4>
+                    <p>Seriously, among enthusiasts, owning an Imperial Eggplant is like a badge of honor. People KNOW. And they respect the choice.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>♻️ Guilt-Free Pleasure</h4>
+                    <p>Compost it after and feel good about yourself. No landfill guilt, no environmental concerns. Pure pleasure with zero shame.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎯 How to Get the Most Out of Your Imperial Eggplant</h2>
+            <div class="content-box">
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">Preparation (Because You're Classy):</h3>
+                <p>💧 <strong>Wash thoroughly</strong> with warm water and mild soap. We mean THOROUGHLY. This is the foundation of everything that follows.</p>
+                <p>❄️ <strong>Temperature matters.</strong> Pop it in the fridge for 20-30 minutes for a cooling sensation that's absolutely divine. Or leave it at room temperature for warmth. Your choice, your pleasure.</p>
+                <p>🛡️ <strong>Always use protection.</strong> A high-quality condom is non-negotiable for internal use. Your health is our priority. (Plus, cleanup is way easier.)</p>
+                <p>🧴 <strong>Lube is your friend.</strong> Water-based only. Seriously. It makes EVERYTHING better, and the glide becomes absolutely buttery smooth.</p>
+                
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">During (Let Yourself Feel):</h3>
+                <p>🔥 <strong>Start slow.</strong> This is thick. Take your time. The anticipation is half the pleasure anyway, right?</p>
+                <p>😏 <strong>Explore the angles.</strong> Twist, rotate, find what feels AMAZING. Every body is different, and that's what makes this so perfect.</p>
+                <p>💫 <strong>Don't rush.</strong> This isn't a race. The Imperial Eggplant is about deep, profound satisfaction. Savor every moment.</p>
+                <p>🎭 <strong>Let yourself be loud.</strong> Privacy is beautiful. Make some noise. You've earned this.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">After (Self-Care is Sexy):</h3>
+                <p>🚿 <strong>Clean up properly.</strong> Wash with warm water, dry it gently. Respect your body.</p>
+                <p>⏰ <strong>Don't overthink it.</strong> You just had an amazing experience. Feel GOOD about that. You deserve it.</p>
+                <p>♻️ <strong>Compost responsibly.</strong> Once you're done with your Imperial Eggplant, send it back to Mother Earth. It came from the soil, and it'll return naturally. Full circle, baby.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🔥 Real Reviews from Real People</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "This. Changed. Everything."</h4>
+                    <p><strong>- Sarah M., Portland, OR</strong><br>"I was skeptical at first, but wow. The weight, the curve, the natural firmness... nothing compares. Best $25 I've ever spent. Already ordered another one for my partner."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Exactly What You Promise"</h4>
+                    <p><strong>- Alex R., Brooklyn, NY</strong><br>"The specifications are accurate. The quality is exceptional. The pleasure is... indescribable. This is the real deal. Discreet shipping was perfect too."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Finally Understand the Hype"</h4>
+                    <p><strong>- Jordan T., Austin, TX</strong><br>"I initially thought this was a joke. It's absolutely not. This is genuinely incredible. Worth every penny and then some. 10/10 would recommend."</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">❓ Common Questions</h2>
+            <div class="content-box">
+                <p><strong style="color: var(--primary-accent);">Q: Is it really fresh?</strong><br>A: 100%. We ship within 24 hours of harvest. You'll get it at peak freshness and firmness. The timeline matters for quality.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: How long does it last?</strong><br>A: In the refrigerator? 5-7 days easily. Some people report it staying firm for up to 10 days. After that, composting time.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Can I really use it multiple times?</strong><br>A: Yes, but with precautions. Wash thoroughly before each use, refrigerate between sessions if possible, and always use fresh protection (condoms). Some enthusiasts get 2-3 uses out of one, others prefer fresh each time. Your comfort, your rules.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Is the packaging really discreet?</strong><br>A: Absolutely. Plain box, no labels, looks like a regular produce delivery. Your privacy is sacred to us.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: What if it arrives damaged?</strong><br>A: Contact us within 48 hours, send a photo, and we'll replace it or refund you. We stand behind our products 100%.</p>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">Ready to Experience Royalty? 👑</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">Join thousands of satisfied customers who've discovered their new favorite.</p>
+            <button class="cta-btn" onclick="alert('Add to cart functionality coming soon! 😉')">Add to Cart - $24.99</button>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">✓ Free shipping on orders over $50 | ✓ 48-hour satisfaction guarantee | ✓ Discreet packaging</p>
+        </div>
+
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            
+            const minSpeed = 1;
+            const maxSpeed = 3;
+            const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+            document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+        });
+    </script>
+</body>
+</html>

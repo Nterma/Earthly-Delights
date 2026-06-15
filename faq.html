@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .faq-category h2 {
+            font-size: 1.8rem;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(255, 123, 137, 0.3);
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 22, 0.6);
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 123, 137, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(157, 78, 221, 0.1);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(157, 78, 221, 0.05);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .faq-answer-content strong {
+            color: var(--primary-accent);
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .faq-question {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="page-title">Frequently Asked Questions</h1>
+        <p class="page-subtitle">Everything you need to know about Earthly Delights. Click any question to expand.</p>
+    </header>
+
+    <section>
+
+        <div style="margin-bottom: 3rem; border-radius: 15px; overflow: hidden;">
+            <img src="assets/images/support-banner.svg" alt="Customer Support" style="width: 100%; height: 350px; object-fit: cover;">
+        </div>
+
+        <div class="faq-category reveal">
+            <h2>🛒 Ordering & Shipping</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How is the packaging discreet?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Your order arrives in plain, unmarked packaging that looks like a regular produce box from a farmer's market. No labels, no logos, no identifying marks. It's indistinguishable from a normal grocery delivery.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you ship internationally?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes! We ship to most countries worldwide. Shipping times vary by location, typically 7-14 business days. Fresh produce may have limited availability for some international routes due to spoilage concerns.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What's your return policy?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        For quality issues, we offer a full refund or replacement within 48 hours of delivery. Since our products are organic produce, returns must be made within this timeframe. Otherwise, your purchase is final (and hopefully unforgettable!).
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is my purchase information private?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Absolutely. We never share customer information with third parties. Your purchase history is private and encrypted. We don't send marketing emails unless you opt in, and you can always unsubscribe.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-category reveal">
+            <h2>🥒 Product Care & Safety</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How should I prepare my produce before use?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <strong>Always wash thoroughly</strong> with warm water and mild soap before use. Some people like to gently dry with a paper towel. For internal use, <strong>always use a premium condom</strong> to prevent irritation or infection. Never use sharp utensils that might create splinters.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I eat the produce after use?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <strong>No.</strong> Once used for intimate purposes, the produce should be discarded. Even with thorough cleaning, it's best to compost it after use. Your health and safety are our priority.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How long does produce last?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Fresh produce typically lasts 3-7 days in a standard refrigerator, depending on the variety. Some items (like carrots) last longer; others (like peaches) are best used within 2-3 days. Use your sense of smell and touch—if it smells off or feels squishy, it's time to compost.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is it safe for sensitive skin?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Organic produce is chemical-free, which makes it gentle. However, always use a condom for internal use. If you have known allergies to specific produce, avoid that item. When in doubt, test on a non-sensitive area first.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Should I use lubricant?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, we recommend a water-based lubricant for added comfort and safety. This reduces friction and enhances the experience. Always ensure any lubricant is condom-safe if using protection.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-category reveal">
+            <h2>❄️ Storage & Temperature Play</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I use cold produce for temperature play?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Absolutely! Many customers enjoy the sensation of chilled produce. Store your item in the refrigerator for 20-30 minutes before use. For an even cooler experience, place it in the freezer for 5-10 minutes (but not longer, as extreme cold can be uncomfortable).
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What about warm produce?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        You can leave produce at room temperature for a different sensation. Never use a microwave or oven, as this can create hot spots and cause burns. Room temperature produce is safe and pleasant.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-category reveal">
+            <h2>🌱 Sustainability & Sourcing</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Are your products truly organic?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes. All our produce comes from certified organic farms. We verify sustainability credentials and maintain relationships with farmers who share our values. No pesticides, no synthetic fertilizers—just natural, clean produce.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What happens to the produce after I'm done?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Simply compost it! Our produce is 100% biodegradable. It will break down naturally in a compost bin or even in your garden. This is one of our core values—what comes from the earth returns to the earth.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do your farms treat workers?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Fair wages and safe working conditions are non-negotiable for us. All our partner farms follow fair trade principles and provide their workers with proper compensation, benefits, and safe working environments. We're proud to support ethical agriculture.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-category reveal">
+            <h2>❓ Other Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is this actually safe?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, when used properly. Organic produce is clean and natural. Always wash before use, always use protection for internal use, and use common sense. If something doesn't feel right, stop. Your safety is paramount.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What if I have more questions?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Reach out to our customer service team at <strong>contact@earthlydelights.com</strong> or visit our <a href="contact.html" style="color: var(--primary-accent); text-decoration: underline;">Contact page</a>. We're here to help and answer any questions with professionalism and discretion.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What's your refund policy if I'm not satisfied?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        We offer a 48-hour satisfaction guarantee. If the product arrives damaged or spoiled, we'll replace it or issue a full refund. Since it's fresh produce, we can't accept returns after 48 hours for freshness reasons.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reveals = document.querySelectorAll(".reveal");
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => revealOnScroll.observe(reveal));
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.offsetHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                
+                const minSpeed = 1;
+                const maxSpeed = 3;
+                const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+                document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+            });
+
+            // FAQ Accordion functionality
+            const faqItems = document.querySelectorAll(".faq-item");
+            
+            faqItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    item.classList.toggle("active");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+<script>
+    (function(){
+        const placeholderSVG = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='%231a0a16'/><text x='50%' y='50%' fill='%23d0a3c2' font-family='Montserrat, sans-serif' font-size='28' text-anchor='middle' dominant-baseline='middle'>Image unavailable</text></svg>");
+        function applyFallback(img){
+            if(img._fallbackApplied) return;
+            img._fallbackApplied = true;
+            img.src = 'data:image/svg+xml;utf8,' + placeholderSVG;
+            img.style.objectFit = 'cover';
+        }
+        try{
+            document.querySelectorAll('img').forEach(img => img.addEventListener('error', ()=>applyFallback(img)));
+            const mo = new MutationObserver(mutations=>{
+                mutations.forEach(m=>{
+                    m.addedNodes.forEach(node=>{
+                        if(node && node.tagName === 'IMG') node.addEventListener('error', ()=>applyFallback(node));
+                        else if(node && node.querySelectorAll) node.querySelectorAll('img').forEach(i=>i.addEventListener('error', ()=>applyFallback(i)));
+                    });
+                });
+            });
+            mo.observe(document.body, {childList: true, subtree: true});
+        }catch(e){
+            console.warn('Image fallback init failed', e);
+        }
+    })();
+</script>

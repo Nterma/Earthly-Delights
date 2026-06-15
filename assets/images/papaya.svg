@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <radialGradient id="papayaGrad" cx="40%" cy="40%">
+      <stop offset="0%" style="stop-color:#ffb366;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dd7a33;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#0b040a"/>
+  <ellipse cx="400" cy="300" rx="140" ry="130" fill="url(#papayaGrad)"/>
+  <circle cx="350" cy="280" r="30" fill="#ff8c42" opacity="0.7"/>
+  <circle cx="420" cy="320" r="28" fill="#ff8c42" opacity="0.7"/>
+  <ellipse cx="400" cy="200" rx="60" ry="80" fill="#4d7a2e"/>
+  <text x="400" y="550" font-size="24" font-family="Montserrat, sans-serif" fill="#d0a3c2" text-anchor="middle">The Papaya Paradise</text>
+</svg>

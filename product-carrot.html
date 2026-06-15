@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Couples' Carrot | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+        .sensual-bg-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: var(--bg-color); overflow: hidden; filter: url(#liquid-filter); }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 4, 10, 0.6); z-index: -1; backdrop-filter: blur(20px); }
+        .fluid-shape { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.8; mix-blend-mode: screen; }
+        .shape-rhythm { width: 45vw; height: 45vw; background: var(--secondary-accent); top: -10%; left: -10%; animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+        .shape-curve { width: 50vw; height: 40vw; background: var(--primary-accent); bottom: -20%; right: -10%; animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+        .shape-pulse { width: 35vw; height: 35vw; background: var(--tertiary-accent); top: 40%; left: 30%; animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+
+        @keyframes thrust { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20vw, 20vh) scale(1.2); } }
+        @keyframes grind { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(-15vw, 15vh) rotate(45deg); } }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.3); opacity: 0.5; } }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; background: rgba(11, 4, 10, 0.85); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(255, 123, 137, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary-accent); text-decoration: none; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; position: relative; }
+        .nav-links a:hover { color: var(--primary-accent); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary-accent); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 10; }
+        header { margin-top: 120px; padding: 3rem 2rem; text-align: center; }
+        .page-title { font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .product-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin: 3rem 0; background: rgba(26, 10, 22, 0.5); padding: 2rem; border-radius: 20px; border: 1px solid rgba(255, 123, 137, 0.1); backdrop-filter: blur(10px); }
+        .product-image { text-align: center; }
+        .product-image img { max-width: 100%; height: auto; border-radius: 15px; }
+        .product-details { display: flex; flex-direction: column; gap: 1.5rem; }
+        .detail-section { background: rgba(157, 78, 221, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 3px solid var(--primary-accent); }
+        .detail-section h3 { color: var(--primary-accent); margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .spec-item { background: rgba(255, 123, 137, 0.1); padding: 1rem; border-radius: 8px; text-align: center; }
+        .spec-label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .spec-value { color: var(--primary-accent); font-size: 1.3rem; font-weight: 600; margin-top: 0.5rem; }
+        .rating { display: flex; gap: 0.3rem; font-size: 1.5rem; margin: 1rem 0; }
+        .review-count { color: var(--text-muted); font-size: 0.9rem; }
+
+        section { margin: 3rem 0; position: relative; z-index: 10; }
+        .section-title { font-size: 2rem; color: var(--text-light); margin-bottom: 1.5rem; border-bottom: 2px solid rgba(255, 123, 137, 0.3); padding-bottom: 1rem; }
+        .content-box { background: rgba(26, 10, 22, 0.6); padding: 2rem; border-radius: 15px; border: 1px solid rgba(255, 123, 137, 0.1); margin-bottom: 2rem; }
+        .content-box p { margin-bottom: 1rem; line-height: 1.8; color: var(--text-light); }
+        .content-box strong { color: var(--primary-accent); }
+        .naughty-highlight { background: rgba(255, 123, 137, 0.15); padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--tertiary-accent); font-weight: 600; }
+
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .tip-card { background: linear-gradient(135deg, rgba(255, 123, 137, 0.1), rgba(157, 78, 221, 0.1)); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(255, 123, 137, 0.2); }
+        .tip-card h4 { color: var(--primary-accent); margin-bottom: 0.7rem; font-size: 1.1rem; }
+        .tip-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
+
+        .cta-section { text-align: center; padding: 2rem; background: rgba(157, 78, 221, 0.1); border-radius: 15px; border: 1px solid rgba(157, 78, 221, 0.3); margin: 3rem 0; }
+        .cta-btn { display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3); text-decoration: none; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary-accent); text-decoration: none; font-weight: 600; margin: 2rem 0; transition: gap 0.3s ease; }
+        .back-link:hover { gap: 1rem; }
+
+        footer { background: rgba(11, 4, 10, 0.95); border-top: 1px solid rgba(255, 123, 137, 0.2); padding: 3rem 2rem; text-align: center; color: var(--text-muted); position: relative; z-index: 10; margin-top: 3rem; }
+
+        @media (max-width: 768px) {
+            .product-hero { grid-template-columns: 1fr; }
+            .page-title { font-size: 2rem; }
+            .spec-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+
+        <header>
+            <h1 class="page-title">The Couples' Carrot 💑</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 1rem;">Designed for synchronized double penetration and connected pleasure</p>
+        </header>
+
+        <div class="product-hero">
+            <div class="product-image">
+                <img src="assets/images/carrot.svg" alt="The Couples' Carrot" style="max-width: 100%; height: auto;">
+            </div>
+
+            <div class="product-details">
+                <div class="detail-section">
+                    <h3>💑 The Ultimate Couples Tool</h3>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="review-count">4.8 out of 5 (534 couples reviews)</p>
+                    <p style="color: var(--text-light); margin-top: 1rem;">"This changed our entire intimate connection. We're obsessed." - Happy Couple</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 Specifications</h3>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Length</div>
+                            <div class="spec-value">8"</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Girth</div>
+                            <div class="spec-value">Medium</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Double Use</div>
+                            <div class="spec-value">Optimized</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Best For</div>
+                            <div class="spec-value">DP Play</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💰 Price & Availability</h3>
+                    <p style="color: var(--primary-accent); font-size: 1.5rem; font-weight: bold;">$16.99</p>
+                    <p style="color: #64c864; margin-top: 0.5rem;">✓ In Stock (Perfect Length for DP)</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">💑 Double Penetration Perfection</h2>
+            <div class="content-box">
+                <p>The Couples' Carrot is <span class="naughty-highlight">specifically engineered for synchronous double penetration</span>. At 8 inches, it's long enough to fill vaginally while providing simultaneous anal stimulation, or any other synchronized configuration your couple prefers.</p>
+                
+                <p>The <span class="naughty-highlight">tapered design means gradual introduction</span> for both partners, making it incredibly accessible for couples exploring DP for the first time, while advanced couples appreciate the perfect length and girth balance. The shape allows for <span class="naughty-highlight">tandem use where both partners feel each other through the produce itself</span>—a sensation that's uniquely connecting.</p>
+
+                <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 123, 137, 0.1); border-left: 3px solid var(--primary-accent); border-radius: 5px;"><strong>The Secret Sauce:</strong> DP play creates a unique sensation where partners feel each other's movement through the produce. It's not just individual pleasure—it's CONNECTED pleasure. That's what makes this so transcendent for couples.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🔥 Why Couples Are Obsessed With DP</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>💫 Ultimate Connection</h4>
+                    <p>You feel each other's presence and movement simultaneously. It's not just sex—it's a profound shared experience that creates deep intimacy.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎯 Perfectly Designed Length</h4>
+                    <p>8 inches allows vaginal and anal play simultaneously, or any configuration your bodies prefer. The tapering makes introduction gradual and comfortable.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🌊 Synchronized Sensations</h4>
+                    <p>One toy, two insertion points, infinite variations. You both move together. You both feel together. The connection is electric.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💚 Trust Building</h4>
+                    <p>DP requires communication, trust, and presence. Exploring this together deepens your bond in ways few other activities can.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🚀 Mind-Blowing Pleasure</h4>
+                    <p>The sensation of full, synchronized filling plus the emotional connection? Couples report this as peak pleasure they never knew was possible.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔄 Flexible Configurations</h4>
+                    <p>Vaginal+anal, external+internal, or whatever configuration works for your bodies. It's truly versatile.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎯 DP Couples' Guide</h2>
+            <div class="content-box">
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">Preparation (Communication First):</h3>
+                <p>🗣️ <strong>Talk extensively first.</strong> Discuss comfort, desires, boundaries, logistics. The conversation IS foreplay.</p>
+                <p>🧴 <strong>Lube generously.</strong> Water-based, copious amounts. Two entry points = double the lubrication needs.</p>
+                <p>⏰ <strong>Take your time.</strong> Slow introduction is key. This isn't a race. Patience = pleasure.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">During (Synchronized Sensation):</h3>
+                <p>💫 <strong>Move together.</strong> Synchronize your rhythm. This is tandem play—coordination creates connection.</p>
+                <p>👀 <strong>Make eye contact.</strong> Presence matters. You're not just having sex—you're connecting.</p>
+                <p>🔊 <strong>Keep communicating.</strong> "This feels amazing," "a little slower," "more pressure"—constant dialogue enhances everything.</p>
+                <p>🌊 <strong>Feel each other through the produce.</strong> That's the magic—you'll literally feel your partner's sensations.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">After (Integration):</h3>
+                <p>🤗 <strong>Hold each other.</strong> The afterglow matters. Be present together.</p>
+                <p>💬 <strong>Talk about the experience.</strong> What did you feel? What surprised you? What do you want to explore next?</p>
+                <p>💧 <strong>Hydrate and rest together.</strong> Recovery is part of the experience.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💬 Real DP Reviews</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "This is What Heaven Feels Like"</h4>
+                    <p><strong>- Maya & David, Los Angeles, CA</strong><br>"We've been together 8 years and thought we'd experienced everything. DP with this carrot? Completely new dimension of pleasure. We're doing this weekly now."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Our Best Investment"</h4>
+                    <p><strong>- Sarah & Mike, Chicago, IL</strong><br>"We were curious about DP but intimidated. This made it accessible and INCREDIBLE. The connection we felt was transcendent. Best $17 ever spent."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Can't Stop Thinking About It"</h4>
+                    <p><strong>- Jordan & Casey, Portland, OR</strong><br>"Seriously, we can't stop thinking about what we experienced. The feeling of her pleasure combined with mine? Absolutely revolutionary. Already ordered a second one."</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">Ready to Explore DP Together? 💑</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">Experience connection on a level you didn't know was possible.</p>
+            <button class="cta-btn" onclick="alert('Add to cart functionality coming soon! 😉')">Add to Cart - $16.99</button>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">✓ Perfect for DP couples | ✓ Satisfaction guaranteed | ✓ Comprehensive guide included | ✓ Discreet packaging</p>
+        </div>
+
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            const minSpeed = 1;
+            const maxSpeed = 3;
+            const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+            document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+        });
+    </script>
+</body>
+</html>

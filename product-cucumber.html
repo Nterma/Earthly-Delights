@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Couples' Cucumber | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            margin: 3rem 0;
+            background: rgba(26, 10, 22, 0.5);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .product-image {
+            text-align: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .detail-section {
+            background: rgba(157, 78, 221, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-accent);
+        }
+
+        .detail-section h3 {
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .spec-item {
+            background: rgba(255, 123, 137, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .spec-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spec-value {
+            color: var(--primary-accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .review-count {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        section {
+            margin: 3rem 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 123, 137, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .content-box {
+            background: rgba(26, 10, 22, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-box p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .content-box strong {
+            color: var(--primary-accent);
+        }
+
+        .naughty-highlight {
+            background: rgba(255, 123, 137, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--tertiary-accent);
+            font-weight: 600;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, rgba(255, 123, 137, 0.1), rgba(157, 78, 221, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 137, 0.2);
+        }
+
+        .tip-card h4 {
+            color: var(--primary-accent);
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
+
+        .tip-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(157, 78, 221, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            margin: 3rem 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3);
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin: 2rem 0;
+            transition: gap 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+
+        <header>
+            <h1 class="page-title">The Couples' Cucumber 💑</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 1rem;">Perfect for shared pleasure and synchronized sensations</p>
+        </header>
+
+        <div class="product-hero">
+            <div class="product-image">
+                <img src="assets/images/cucumber.svg" alt="The Couples' Cucumber" style="max-width: 100%; height: auto;">
+            </div>
+
+            <div class="product-details">
+                <div class="detail-section">
+                    <h3>💑 The Bond Builder</h3>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="review-count">4.8 out of 5 (623 couples reviews)</p>
+                    <p style="color: var(--text-light); margin-top: 1rem;">"Brought us closer than ever. Literally." - Happy Couple 🔥</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 Specifications</h3>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Length</div>
+                            <div class="spec-value">7.5"</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Girth</div>
+                            <div class="spec-value">Medium-Firm</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Flexibility</div>
+                            <div class="spec-value">Moderate</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Texture</div>
+                            <div class="spec-value">Bumpy Ridge</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💰 Price & Availability</h3>
+                    <p style="color: var(--primary-accent); font-size: 1.5rem; font-weight: bold;">$14.99 (or $27.99/2-pack)</p>
+                    <p style="color: #64c864; margin-top: 0.5rem;">✓ In Stock (Perfect for couples!)</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">🥒 The Art of Tandem Pleasure</h2>
+            <div class="content-box">
+                <p>The Couples' Cucumber is <span class="naughty-highlight">specifically engineered for shared intimacy</span>. This isn't just another vegetable—it's a conversation starter, a bonding experience, and a gateway to connected pleasure that silicone toys simply can't replicate.</p>
+                
+                <p>The unique <span class="naughty-highlight">bumpy ridge pattern</span> running along the length creates varying sensations as you explore together. The moderate length (7.5") is perfect for couples play—not too intimidating, not too subtle. The natural flexibility means it bends and moves with your bodies, adapting to your movements rather than forcing conformity.</p>
+
+                <p>Fresh from our farms daily, each Couples' Cucumber is hand-selected for optimal texture contrast. The slightly <span class="naughty-highlight">firm yet yielding nature</span> means it stays perfectly positioned during shared sessions, while the cooling sensation when freshly chilled creates an unforgettable sensation for both partners.</p>
+
+                <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 123, 137, 0.1); border-left: 3px solid var(--primary-accent); border-radius: 5px;"><strong>Pro Tip:</strong> Many couples buy the 2-pack and use one each simultaneously for synchronized pleasure. The matching experience? Absolutely transcendent.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🌟 Why Couples Are Obsessed</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🤝 Synchronized Pleasure</h4>
+                    <p>Explore together simultaneously. The matching sensations create an intimate connection that solo toys simply cannot achieve. This is bonding at its finest.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💚 Trust Building</h4>
+                    <p>Using this together opens communication about desires, preferences, and boundaries. Many couples report deeper conversations after their first session.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎨 Textural Variety</h4>
+                    <p>The bumpy ridge creates four distinct sensation zones along the shaft. Take turns exploring each ridge. It's like discovering something new every time.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>👥 Couples Play Positions</h4>
+                    <p>Unlike rigid toys, this adapts to your positions. Face-to-face? Works. Spooning? Perfect. Standing shower play? Absolutely feasible. Flexibility is the feature.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔥 The Fresh Factor</h4>
+                    <p>Delivered fresh within 24 hours. That natural cooling sensation when chilled? It's a built-in feature that gets talked about in couples forums everywhere.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💬 Conversation Piece</h4>
+                    <p>Honest: when other couples find out you're using this, they WANT to know about it. It's become a whole community of people discovering connected pleasure.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎯 Your Couples' Journey Guide</h2>
+            <div class="content-box">
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">🗣️ Before You Begin (Communication is Foreplay):</h3>
+                <p>💬 <strong>Talk about it first.</strong> Seriously. Discuss comfort levels, desires, boundaries. The act of talking about it? Incredibly sexy.</p>
+                <p>🎯 <strong>Set intentions.</strong> Is this exploration? Pleasure? Connection? There's no wrong answer—just be aligned.</p>
+                <p>🛡️ <strong>Discuss safety.</strong> Condoms, hydration, safewords—all of it. Boring conversation = safer, better sex.</p>
+                <p>🌡️ <strong>Temperature preference.</strong> Chilled or room temp? Discuss now, adjust later. Climate control is underrated.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">🎬 During (Let It Flow):</h3>
+                <p>🌊 <strong>Use lube generously.</strong> Water-based, always. This isn't the place to skimp. Adequate lubrication = transcendent experience.</p>
+                <p>🎵 <strong>Find your rhythm together.</strong> Slow and sensual? Fast and intense? Matching rhythms creates incredible synchronization. Feel each other's pace.</p>
+                <p>👀 <strong>Make eye contact.</strong> Presence matters. You're not just getting pleasure—you're connecting.</p>
+                <p>🔊 <strong>Communicate in real-time.</strong> "That feels amazing," "slower," "more pressure"—verbal connection enhances physical sensation exponentially.</p>
+                <p>🌀 <strong>Rotate perspectives.</strong> Switch who leads, who follows. Alternate between who takes more and who takes less. Variety matters.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">💫 After (The Afterglow Matters):</h3>
+                <p>🤗 <strong>Cuddling and conversation.</strong> Don't just roll over. Talk about what you experienced, what you felt, what surprised you.</p>
+                <p>💧 <strong>Hydrate like you mean it.</strong> You just engaged in physical intimacy. Your body needs water.</p>
+                <p>🚿 <strong>Clean up together.</strong> Make it part of the experience. Shower together, wash each other's hands, maintain the connection.</p>
+                <p>📅 <strong>Plan the next one.</strong> Anticipation is half the pleasure. When's your next couples' session?</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💕 Real Reviews from Real Couples</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "This Saved Our Intimacy"</h4>
+                    <p><strong>- Jennifer & Mike, Denver, CO</strong><br>"After 10 years of marriage, we needed a spark. This literally reignited our connection. We're trying them again next weekend. Who knew a vegetable could be this transformative?"</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Better Than Any Toy"</h4>
+                    <p><strong>- Taylor & Sam, San Francisco, CA</strong><br>"We've tried silicone everything. The natural texture here is unlike anything else. Plus the freshness factor means it's always new, never gets weird or degraded. Total game changer."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Communication Breakthrough"</h4>
+                    <p><strong>- Alex & Casey, Portland, OR</strong><br>"We ordered this because it was funny. Turns out it's the most connected we've ever been. We actually talk about our desires now. Surprisingly therapeutic and incredibly hot."</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">❓ Couples' FAQs</h2>
+            <div class="content-box">
+                <p><strong style="color: var(--primary-accent);">Q: Is this awkward if we've never done anything like this?</strong><br>A: Honestly? A little at first. But that awkwardness becomes playfulness pretty quickly. The fact that you're in this together? That's what matters. You're already being vulnerable, which is beautiful.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: How do couples typically use two of these?</strong><br>A: Simultaneously in different ways—mutual penetration play, external play on each other, or taking turns. There's no "right" way. It's whatever connects you both.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: What if one partner is way more into this than the other?</strong><br>A: That's okay. The other partner might enjoy it more as they explore. Or one partner might prefer observation. There's zero judgment here. It's about exploring together at whatever pace works.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Can we really use it multiple times?</strong><br>A: Yes, absolutely. Many couples get 3-4 sessions out of one if refrigerated between uses and cleaned properly. Some prefer fresh each time. Your call.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: How should we store it between sessions?</strong><br>A: Refrigerator, in a sealed container. The coolness also becomes part of the experience—that chilled sensation never gets old.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Is there a position guide or anything?</strong><br>A: Not needed—that's the beauty of this. The natural flexibility means positions that work for you will feel right. Trust your bodies. They know what feels good.</p>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">Ready to Connect? 💑</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">Join hundreds of couples who've discovered a new dimension of intimacy together.</p>
+            <button class="cta-btn" onclick="alert('Add to cart functionality coming soon! 😉')">Add to Cart - $14.99</button>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">✓ 2-pack option available for synchronized pleasure | ✓ 48-hour satisfaction guarantee | ✓ Discreet couples delivery</p>
+        </div>
+
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            
+            const minSpeed = 1;
+            const maxSpeed = 3;
+            const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+            document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+        });
+    </script>
+</body>
+</html>

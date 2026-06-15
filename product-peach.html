@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Silky Peach | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            margin: 3rem 0;
+            background: rgba(26, 10, 22, 0.5);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .product-image {
+            text-align: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .detail-section {
+            background: rgba(157, 78, 221, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-accent);
+        }
+
+        .detail-section h3 {
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .spec-item {
+            background: rgba(255, 123, 137, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .spec-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spec-value {
+            color: var(--primary-accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .review-count {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        section {
+            margin: 3rem 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 123, 137, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .content-box {
+            background: rgba(26, 10, 22, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .content-box p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .content-box strong {
+            color: var(--primary-accent);
+        }
+
+        .naughty-highlight {
+            background: rgba(255, 123, 137, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--tertiary-accent);
+            font-weight: 600;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, rgba(255, 123, 137, 0.1), rgba(157, 78, 221, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 137, 0.2);
+        }
+
+        .tip-card h4 {
+            color: var(--primary-accent);
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
+
+        .tip-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(157, 78, 221, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            margin: 3rem 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3);
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin: 2rem 0;
+            transition: gap 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+
+        <header>
+            <h1 class="page-title">The Silky Peach 🍑</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 1rem;">Smooth, sensual, and absolutely divine for external pleasure</p>
+        </header>
+
+        <div class="product-hero">
+            <div class="product-image">
+                <img src="assets/images/peach.svg" alt="The Silky Peach" style="max-width: 100%; height: auto;">
+            </div>
+
+            <div class="product-details">
+                <div class="detail-section">
+                    <h3>😘 The Velvet Dream</h3>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="review-count">4.9 out of 5 (712 reviews)</p>
+                    <p style="color: var(--text-light); margin-top: 1rem;">"The skin is softer than my favorite pillow. Instant addiction." - Happy Customer 💕</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 Specifications</h3>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Diameter</div>
+                            <div class="spec-value">2.8"</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">5 oz</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Texture</div>
+                            <div class="spec-value">Ultra Fuzzy</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Best For</div>
+                            <div class="spec-value">Clitoral Play</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💰 Price & Availability</h3>
+                    <p style="color: var(--primary-accent); font-size: 1.5rem; font-weight: bold;">$12.99</p>
+                    <p style="color: #64c864; margin-top: 0.5rem;">✓ In Stock (Fresh Today)</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">🍑 Softness Beyond Belief</h2>
+            <div class="content-box">
+                <p>The Silky Peach is the ultimate <span class="naughty-highlight">external stimulation companion</span> for anyone who values gentle, exquisite sensation. The ultra-fuzzy skin creates a tactile experience that's incomparable—this isn't rough or abrasive, it's like touching silk spun from clouds.</p>
+                
+                <p>Hand-selected for optimal fuzz and softness, each Silky Peach is a masterpiece of natural sensuality. The <span class="naughty-highlight">perfect spherical shape</span> makes it ideal for targeted clitoral play, but many users discover it's equally amazing for full-body massage, nipple stimulation, and outer labia play. The versatility is genuinely surprising.</p>
+
+                <p>Unlike the firm structural vegetables, the Peach's softer composition allows for <span class="naughty-highlight">grinding and rolling sensations</span> that firm produce just can't deliver. The natural give means pressure becomes massage, and movement becomes exploration. The weight is substantial enough to feel without being overwhelming—it's like holding pleasure in the palm of your hand.</p>
+
+                <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 123, 137, 0.1); border-left: 3px solid var(--primary-accent); border-radius: 5px;"><strong>The Secret:</strong> Refrigerated peaches have an almost creamy texture that feels absolutely divine. The coldness + softness combination? Transcendent. Room temperature? Still incredible, but different. Temperature play with a Peach is genuinely a game-changer.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💗 Why This Is The Fan Favorite</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🪶 Unmatched Softness</h4>
+                    <p>The fuzz is REAL. This is softer than most silicone toys, softer than fingers, softer than anything you've probably felt. It's pure softness paired with purpose.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎯 Precision Placement</h4>
+                    <p>The round shape lets you target exactly where you need it. Clitoral? Perfect. Outer labia? Amazing. Full vulva massage? Absolutely.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💨 Temperature Play Heaven</h4>
+                    <p>Chill it for cooling sensations, or let it reach room temperature for warmth. The softness amplifies temperature sensation in ways hard toys never could.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🌊 Grinding Joy</h4>
+                    <p>Unlike firm vegetables, this allows grinding, rolling, circling. Full body movements feel amazing. It adapts to your motions rather than forcing conformity.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎁 Portable Pleasure</h4>
+                    <p>Lightweight (5 oz) and compact. Throw it in your bag for travel. Nobody needs to know. Pure convenience meets pleasure.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🤲 Versatile as Hell</h4>
+                    <p>External play, yes. But also: massage gift for friends (wink), smoothie ingredient, actual produce for dinner. The duality is kinda fun.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎯 The Art of Peach Pleasure</h2>
+            <div class="content-box">
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">Preparation (Setting the Scene):</h3>
+                <p>💧 <strong>Wash thoroughly under cool water.</strong> The fuzzy skin will feel even more amazing fresh and damp. Some people enjoy it this way.</p>
+                <p>❄️ <strong>Chill for 15-20 minutes.</strong> The coldness amplifies sensation exponentially. It's a revelation if you've never tried it cold.</p>
+                <p>🛡️ <strong>Consider your environment.</strong> Privacy and comfort matter. Make sure you're in a space where you can fully relax and enjoy yourself.</p>
+                <p>🧴 <strong>Lube if you want.</strong> Not necessary for external play, but some people love adding water-based lube for extra glide on the fuzz.</p>
+                
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">During (Pure Sensation):</h3>
+                <p>🌀 <strong>Start with circles.</strong> The round shape is perfect for gentle circular motions. Find the rhythm that works for your body.</p>
+                <p>💫 <strong>Experiment with pressure.</strong> Light pressure feels amazing. More pressure? Also amazing. Your body will tell you what it needs.</p>
+                <p>🔄 <strong>Try different motions.</strong> Rolling, grinding, gentle rocking, quick movements, slow movements—every variation feels different. Exploration is the point.</p>
+                <p>😏 <strong>Don't rush.</strong> External play is about savoring sensation. The slowness is part of the pleasure.</p>
+                <p>🎭 <strong>Breathe and feel.</strong> Your body is extraordinary. Let yourself experience everything.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">After (Blissful Recovery):</h3>
+                <p>😌 <strong>Take a moment.</strong> Savor the pleasure. You just did something wonderful for yourself.</p>
+                <p>🧊 <strong>Wash it for storage.</strong> Cool running water, gently pat dry. Keep refrigerated if you want it cold for next time.</p>
+                <p>♻️ <strong>Or eat it.</strong> Seriously. After one use, if you're not in the mood to go again, peaches are delicious. Slice it up, enjoy it literally.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🔥 Real Reviews from Real People</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "I Never Knew Softness Could Feel Like This"</h4>
+                    <p><strong>- Mia T., Los Angeles, CA</strong><br>"The fuzz is literally soft enough to be therapeutic. I've been using mine for a week now and genuinely don't want to go back to anything else. Worth every penny."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "My New Favorite Thing"</h4>
+                    <p><strong>- Rachel K., Chicago, IL</strong><br>"I ordered this as a joke. It's absolutely not a joke. The temperature play alone makes this worth it. Chilled = perfection."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Changed My Entire Approach to Pleasure"</h4>
+                    <p><strong>- Jordan L., Seattle, WA</strong><br>"I didn't know I could feel this way. The softness, the weight, the coldness when chilled—everything works together perfectly. I'm already ordering another one."</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">❓ Peach FAQs</h2>
+            <div class="content-box">
+                <p><strong style="color: var(--primary-accent);">Q: Is it really that soft?</strong><br>A: Yes. It's genuinely softer than most toys. The natural fuzz is incredible. First-time users often comment that they weren't prepared for the softness.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: How long does it last?</strong><br>A: Refrigerated? 5-7 days easily, sometimes longer. The skin might soften over time, which some people actually prefer. Eventually, it becomes a great smoothie ingredient.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Can I really eat it afterward?</strong><br>A: Absolutely. After one or multiple uses, if you wash it thoroughly and it's still good condition-wise, it's absolutely edible. Many people do this.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Is it better cold or warm?</strong><br>A: Both are amazing, just different sensations. Cold = intense, refreshing, perfect for hot days. Room temp = more nuanced sensation. Try both and see what you prefer.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Can I use it with a partner?</strong><br>A: Absolutely. Many couples love incorporating external play together. It's intimate and fun. Plus the softness makes it great for gentle partner massage.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: What if I'm sensitive?</strong><br>A: The Silky Peach is perfect for sensitive areas because the softness means zero abrasiveness. Start with light pressure and see how it feels. Your body will guide you.</p>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">Experience the Softness 🍑</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">Join thousands of people who've discovered the unmatched pleasure of genuine natural texture.</p>
+            <button class="cta-btn" onclick="alert('Add to cart functionality coming soon! 😉')">Add to Cart - $12.99</button>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">✓ Fresh delivered daily | ✓ Versatile for pleasure or eating | ✓ Discreet packaging | ✓ Temperature play ready</p>
+        </div>
+
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            
+            const minSpeed = 1;
+            const maxSpeed = 3;
+            const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+            document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+        });
+    </script>
+</body>
+</html>

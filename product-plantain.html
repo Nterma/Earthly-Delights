@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mighty Plantain | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+        .sensual-bg-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: var(--bg-color); overflow: hidden; filter: url(#liquid-filter); }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 4, 10, 0.6); z-index: -1; backdrop-filter: blur(20px); }
+        .fluid-shape { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.8; mix-blend-mode: screen; }
+        .shape-rhythm { width: 45vw; height: 45vw; background: var(--secondary-accent); top: -10%; left: -10%; animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+        .shape-curve { width: 50vw; height: 40vw; background: var(--primary-accent); bottom: -20%; right: -10%; animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+        .shape-pulse { width: 35vw; height: 35vw; background: var(--tertiary-accent); top: 40%; left: 30%; animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate; }
+
+        @keyframes thrust { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20vw, 20vh) scale(1.2); } }
+        @keyframes grind { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(-15vw, 15vh) rotate(45deg); } }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.3); opacity: 0.5; } }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; background: rgba(11, 4, 10, 0.85); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(255, 123, 137, 0.2); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary-accent); text-decoration: none; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; position: relative; }
+        .nav-links a:hover { color: var(--primary-accent); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary-accent); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 10; }
+        header { margin-top: 120px; padding: 3rem 2rem; text-align: center; }
+        .page-title { font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .product-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin: 3rem 0; background: rgba(26, 10, 22, 0.5); padding: 2rem; border-radius: 20px; border: 1px solid rgba(255, 123, 137, 0.1); backdrop-filter: blur(10px); }
+        .product-image { text-align: center; }
+        .product-image img { max-width: 100%; height: auto; border-radius: 15px; }
+        .product-details { display: flex; flex-direction: column; gap: 1.5rem; }
+        .detail-section { background: rgba(157, 78, 221, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 3px solid var(--primary-accent); }
+        .detail-section h3 { color: var(--primary-accent); margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+        .spec-item { background: rgba(255, 123, 137, 0.1); padding: 1rem; border-radius: 8px; text-align: center; }
+        .spec-label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .spec-value { color: var(--primary-accent); font-size: 1.3rem; font-weight: 600; margin-top: 0.5rem; }
+        .rating { display: flex; gap: 0.3rem; font-size: 1.5rem; margin: 1rem 0; }
+        .review-count { color: var(--text-muted); font-size: 0.9rem; }
+
+        section { margin: 3rem 0; position: relative; z-index: 10; }
+        .section-title { font-size: 2rem; color: var(--text-light); margin-bottom: 1.5rem; border-bottom: 2px solid rgba(255, 123, 137, 0.3); padding-bottom: 1rem; }
+        .content-box { background: rgba(26, 10, 22, 0.6); padding: 2rem; border-radius: 15px; border: 1px solid rgba(255, 123, 137, 0.1); margin-bottom: 2rem; }
+        .content-box p { margin-bottom: 1rem; line-height: 1.8; color: var(--text-light); }
+        .content-box strong { color: var(--primary-accent); }
+        .naughty-highlight { background: rgba(255, 123, 137, 0.15); padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--tertiary-accent); font-weight: 600; }
+
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .tip-card { background: linear-gradient(135deg, rgba(255, 123, 137, 0.1), rgba(157, 78, 221, 0.1)); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(255, 123, 137, 0.2); }
+        .tip-card h4 { color: var(--primary-accent); margin-bottom: 0.7rem; font-size: 1.1rem; }
+        .tip-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
+
+        .cta-section { text-align: center; padding: 2rem; background: rgba(157, 78, 221, 0.1); border-radius: 15px; border: 1px solid rgba(157, 78, 221, 0.3); margin: 3rem 0; }
+        .cta-btn { display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent)); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3); text-decoration: none; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary-accent); text-decoration: none; font-weight: 600; margin: 2rem 0; transition: gap 0.3s ease; }
+        .back-link:hover { gap: 1rem; }
+
+        footer { background: rgba(11, 4, 10, 0.95); border-top: 1px solid rgba(255, 123, 137, 0.2); padding: 3rem 2rem; text-align: center; color: var(--text-muted); position: relative; z-index: 10; margin-top: 3rem; }
+
+        @media (max-width: 768px) {
+            .product-hero { grid-template-columns: 1fr; }
+            .page-title { font-size: 2rem; }
+            .spec-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+
+        <header>
+            <h1 class="page-title">The Mighty Plantain 💪</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 1rem;">Maximum size, maximum girth, maximum everything. For those who want it ALL.</p>
+        </header>
+
+        <div class="product-hero">
+            <div class="product-image">
+                <img src="assets/images/plantain.svg" alt="The Mighty Plantain" style="max-width: 100%; height: auto;">
+            </div>
+
+            <div class="product-details">
+                <div class="detail-section">
+                    <h3>💪 The Big Beast</h3>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p class="review-count">4.7 out of 5 (398 size enthusiast reviews)</p>
+                    <p style="color: var(--text-light); margin-top: 1rem;">"It's BIG. And I mean BIG. Worth every second of preparation." - Satisfied Customer</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>📊 Specifications</h3>
+                    <div class="spec-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Length</div>
+                            <div class="spec-value">10"</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Girth</div>
+                            <div class="spec-value">XXL+</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Curvature</div>
+                            <div class="spec-value">Perfect Angle</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Weight</div>
+                            <div class="spec-value">2.5 lbs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>💰 Price & Availability</h3>
+                    <p style="color: var(--primary-accent); font-size: 1.5rem; font-weight: bold;">$26.99</p>
+                    <p style="color: #64c864; margin-top: 0.5rem;">✓ In Stock (Limited Availability)</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">💪 Go BIG or Go Home</h2>
+            <div class="content-box">
+                <p>The Mighty Plantain is <span class="naughty-highlight">for people who want MAXIMUM size and incredible curvature</span>. At 10 inches with massive girth, this is seriously impressive. The natural curve is absolutely perfect—it hits the front wall with devastating accuracy, and the sheer size creates a sensation of PROFOUND fullness that only size enthusiasts truly understand.</p>
+                
+                <p>This is <span class="naughty-highlight">NOT the same as the Bitter Melon</span>. While the melon is about density and length, the Plantain is about incredible size, girth, and that perfect curve that creates sensations of total filling. The weight alone (2.5 pounds!) means you'll FEEL the presence throughout your entire body. This is what "going big" actually means.</p>
+
+                <p>For people with <span class="naughty-highlight">substantial capacity and specific size preferences</span>, this is absolutely transcendent. The curve means deep, satisfying pressure. The girth means constant sensation. The length means no bottom, just pure pleasure.</p>
+
+                <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 123, 137, 0.1); border-left: 3px solid var(--primary-accent); border-radius: 5px;"><strong>Important Note:</strong> This requires genuine experience and preparation. If you're not already comfortable with large toys, build up first. If you know your body and you want BIG, this is your absolute winner.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🔥 Why Size Enthusiasts Absolutely Worship This</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>📏 Massive Presence</h4>
+                    <p>10" x XXL+ girth. It's THERE. You feel it everywhere. The weight, the size, the presence—it's completely filling.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🎯 Perfect Curve</h4>
+                    <p>The natural bend hits exactly right. Couples who understand angle prefer this to straight toys. The curve is KEY.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💎 Premium Quality</h4>
+                    <p>Hand-selected for perfect size and curve consistency. Every Plantain is verified for maximum performance.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🌊 Total Fullness</h4>
+                    <p>No toy can replicate the sensation of organic size. The give, the natural texture, the weight—it's incomparable.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💫 Lasting Satisfaction</h4>
+                    <p>The size means sessions can be shorter but more intense. Quality over quantity. Pure satisfaction guaranteed.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>👑 Status</h4>
+                    <p>Owning a Plantain means you're SERIOUS about size. Enthusiasts know exactly what this represents.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎯 The Plantain Experience Guide</h2>
+            <div class="content-box">
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">Preparation (Respect the Size):</h3>
+                <p>🧘 <strong>Mental readiness is ESSENTIAL.</strong> Anticipate this. Prepare mentally. Your mind opens when you're excited and ready.</p>
+                <p>⏰ <strong>Give yourself 45+ minutes.</strong> Genuine foreplay, lube application, gradual introduction. This size requires respect and time.</p>
+                <p>🧴 <strong>LUBE like your life depends on it.</strong> Water-based, generous amounts. Double what you think you need. Then add more.</p>
+                <p>🌡️ <strong>Temperature control.</strong> Refrigerate beforehand. The coldness makes it easier to introduce and intensifies sensation.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">During (Surrender to Sensation):</h3>
+                <p>😮 <strong>Breathe constantly.</strong> Deep breathing. Your body opens and accommodates when relaxed.</p>
+                <p>🌊 <strong>Feel the weight.</strong> That 2.5-pound presence is part of the pleasure. The pressure, the weight, the fullness—it's the point.</p>
+                <p>💫 <strong>Go at YOUR pace.</strong> If you need to take breaks, take breaks. This is about YOUR pleasure and your capacity.</p>
+                <p>🔊 <strong>Communicate your experience.</strong> "This feels amazing," "I need a minute," "keep going"—share your reality.</p>
+                <p>🎯 <strong>Experience the curve.</strong> Move slightly to feel how the curve hits. Adjust positions to maximize sensation.</p>
+
+                <h3 style="color: var(--primary-accent); margin-bottom: 1rem; margin-top: 2rem;">After (Deep Recovery):</h3>
+                <p>😌 <strong>Rest deeply.</strong> You did something genuinely impressive. Allow yourself recovery time.</p>
+                <p>💧 <strong>Massive hydration.</strong> Seriously. Your body worked intensely. Water is essential.</p>
+                <p>🛁 <strong>Gentle care.</strong> Maybe a bath, gentle stretching. Your body deserves kindness.</p>
+                <p>✨ <strong>Honor the experience.</strong> You just experienced something extraordinary. Feel that accomplishment.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">💬 Real Size Enthusiast Reviews</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Finally Got What I've Been Searching For"</h4>
+                    <p><strong>- Morgan K., New York, NY</strong><br>"After years of toys and other options, THIS is what I needed. The size, the weight, the curve—perfection. I'm permanently converted."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Size Queen Approved"</h4>
+                    <p><strong>- Riley T., Austin, TX</strong><br>"I know my capacity and what I want. This absolutely delivers. The natural texture combined with the sheer SIZE? Incomparable. Best toy investment ever."</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⭐⭐⭐⭐⭐ "Peak Pleasure"</h4>
+                    <p><strong>- Casey M., Portland, OR</strong><br>"This is what peak pleasure feels like. The curve, the weight, the girth—everything aligns perfectly. I genuinely can't imagine going back to anything smaller."</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">❓ Size Enthusiast FAQs</h2>
+            <div class="content-box">
+                <p><strong style="color: var(--primary-accent);">Q: How do I know if I'm ready for this?</strong><br>A: If you've been exploring size and think "I want more," and you're comfortable with double-digit length and XXL+ girth, you're ready. Know your capacity.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: What's the difference from the Bitter Melon?</strong><br>A: Melon is about density and firm presence. Plantain is about SIZE and girth with a perfect curve. Different experiences entirely. Some people love both.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Can I use multiple times?</strong><br>A: Absolutely, with proper care between uses. Refrigerate, wash thoroughly. Many users get 2-3 sessions from one if properly maintained.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: Is the curve permanent?</strong><br>A: Natural curve stays consistent. After refrigeration and use, it maintains shape. The organic structure is remarkably stable.</p>
+
+                <p style="margin-top: 1.5rem;"><strong style="color: var(--primary-accent);">Q: What if it's too much?</strong><br>A: Listen to your body. If something feels genuinely wrong, stop. You can always work up to it or stick with smaller options. Your safety matters most.</p>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">Ready for Maximum? 💪</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">Experience size like you've always wanted.</p>
+            <button class="cta-btn" onclick="alert('Add to cart functionality coming soon! 😉')">Add to Cart - $26.99</button>
+            <p style="color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">✓ For size enthusiasts | ✓ Massive satisfaction | ✓ Perfect curve guaranteed | ✓ Premium discreet shipping</p>
+        </div>
+
+        <a href="collection.html" class="back-link">← Back to Collection</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            const minSpeed = 1;
+            const maxSpeed = 3;
+            const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+            document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+        });
+    </script>
+</body>
+</html>

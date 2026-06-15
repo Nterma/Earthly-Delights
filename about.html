@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-section {
+            margin-bottom: 3rem;
+            background: rgba(26, 10, 22, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-accent);
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .value-card {
+            background: rgba(157, 78, 221, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            text-align: center;
+        }
+
+        .value-card h3 {
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .value-card p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .value-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .timeline {
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-accent);
+            border-radius: 50%;
+            border: 2px solid var(--bg-color);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 12px;
+            width: 2px;
+            height: calc(100% + 2rem);
+            background: linear-gradient(to bottom, var(--primary-accent), transparent);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content h4 {
+            color: var(--primary-accent);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-content p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+        }
+
+        .easter-egg {
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .easter-egg:hover {
+            filter: brightness(1.2);
+        }
+
+        .easter-egg::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .easter-egg.activated::after {
+            content: '💋';
+            font-size: 2rem;
+            width: auto;
+            height: auto;
+            animation: float-up 1s ease-out forwards;
+        }
+
+        @keyframes float-up {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-60px); }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="page-title">About Earthly Delights</h1>
+        <p class="page-subtitle">Pioneering natural pleasure since 2024. Where sustainability meets sensuality.</p>
+    </header>
+
+    <section class="reveal">
+        <div style="margin-bottom: 2rem; border-radius: 15px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;">
+            <img src="assets/images/farm-banner.svg" alt="Organic Farming" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px;">
+            <div>
+                <div class="content-section">
+                    <h2>Our Story 💚</h2>
+                    <p>Earthly Delights was born from a simple realization: nature has been creating the most beautifully designed objects for millennia. Why not celebrate that? What started as a joke between friends evolved into a full-fledged mission to provide sustainable, organic alternatives to battery-powered novelties.</p>
+                    <p>We believe that <span class="easter-egg" style="cursor: pointer; color: var(--primary-accent); font-weight: bold; text-decoration: underline;">pleasure shouldn't compromise</span> our values. Every produce item in our collection is carefully selected from partner farms that practice ethical, sustainable agriculture. We hand-inspect each item to ensure it meets our rigorous standards for ergonomic perfection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <div class="content-section">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <img src="assets/images/farm-banner.svg" alt="Sustainability" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>🌍 Sustainability</h3>
+                    <p>100% biodegradable. Zero waste. Back to the earth after the experience.</p>
+                </div>
+                <div class="value-card">
+                    <img src="assets/images/farm-banner.svg" alt="Integrity" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>🤝 Integrity</h3>
+                    <p>Honest, transparent practices. Fair wages for our farmers. Real quality.</p>
+                </div>
+                <div class="value-card">
+                    <img src="assets/images/support-banner.svg" alt="Privacy" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>🔒 Privacy</h3>
+                    <p>Discreet packaging and delivery. Your pleasure is your business alone.</p>
+                </div>
+                <div class="value-card">
+                    <img src="assets/images/farm-banner.svg" alt="Quality" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>✨ Quality</h3>
+                    <p>Hand-selected, expertly curated. Only the finest produce makes the cut.</p>
+                </div>
+                <div class="value-card">
+                    <img src="assets/images/farm-banner.svg" alt="Joy" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>😊 Joy</h3>
+                    <p>Life is too short for boring experiences. We celebrate sensuality and fun.</p>
+                </div>
+                <div class="value-card">
+                    <img src="assets/images/support-banner.svg" alt="Safety" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>💚 Safety</h3>
+                    <p>Proper hygiene guidance, transparent ingredient info, responsible enjoyment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <div class="content-section">
+            <h2>Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2024 - The Beginning</h4>
+                        <p>Earthly Delights launches with our founding collection of 4 products. Early adopters embrace the concept.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Mid 2024 - Expansion</h4>
+                        <p>Customer feedback leads to expansion. We partner with 5 sustainable farms across multiple regions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Late 2024 - Growth</h4>
+                        <p>Collection grows to 15+ products. International shipping begins. Community builds around shared values.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2025 - Recognition</h4>
+                        <p>Featured in sustainability and wellness publications. Award for most innovative eco-friendly product line.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2026 - Present Day</h4>
+                        <p>Proud member of the Sustainable Pleasure Movement. Continuing our mission of natural, responsible enjoyment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <div class="content-section">
+            <h2>Why Choose Natural?</h2>
+            <p><strong>Environmental Impact:</strong> Every product we sell is biodegradable. Once you're done, it goes straight to compost, returning nutrients to the earth. No plastic waste, no batteries in landfills.</p>
+            <p><strong>Body Safety:</strong> Organic produce is chemical-free. No mysterious phthalates or questionable compounds. Just nature, pure and simple.</p>
+            <p><strong>Authenticity:</strong> There's something deeply satisfying about using something created by Mother Nature herself. It's real, it's honest, and it works.</p>
+            <p><strong>Sustainability:</strong> Our partner farms use ethical, sustainable practices. By choosing Earthly Delights, you're supporting responsible agriculture and fair wages.</p>
+            <p><strong>Novelty & Fun:</strong> Let's be honest—it's a bit cheeky, and that's the point. Pleasure doesn't have to be serious or shameful. Embrace the fun.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reveals = document.querySelectorAll(".reveal");
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => revealOnScroll.observe(reveal));
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.offsetHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                
+                const minSpeed = 1;
+                const maxSpeed = 3;
+                const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+                document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+            });
+
+            // Easter egg interactions
+            document.querySelectorAll('.easter-egg').forEach(egg => {
+                egg.addEventListener('click', function(e) {
+                    this.classList.add('activated');
+                    setTimeout(() => this.classList.remove('activated'), 1000);
+                    e.stopPropagation();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+<script>
+    (function(){
+        const placeholderSVG = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='%231a0a16'/><text x='50%' y='50%' fill='%23d0a3c2' font-family='Montserrat, sans-serif' font-size='28' text-anchor='middle' dominant-baseline='middle'>Image unavailable</text></svg>");
+        function applyFallback(img){
+            if(img._fallbackApplied) return;
+            img._fallbackApplied = true;
+            img.src = 'data:image/svg+xml;utf8,' + placeholderSVG;
+            img.style.objectFit = 'cover';
+        }
+        try{
+            document.querySelectorAll('img').forEach(img => img.addEventListener('error', ()=>applyFallback(img)));
+            const mo = new MutationObserver(mutations=>{
+                mutations.forEach(m=>{
+                    m.addedNodes.forEach(node=>{
+                        if(node && node.tagName === 'IMG') node.addEventListener('error', ()=>applyFallback(node));
+                        else if(node && node.querySelectorAll) node.querySelectorAll('img').forEach(i=>i.addEventListener('error', ()=>applyFallback(i)));
+                    });
+                });
+            });
+            mo.observe(document.body, {childList: true, subtree: true});
+        }catch(e){
+            console.warn('Image fallback init failed', e);
+        }
+    })();
+</script>

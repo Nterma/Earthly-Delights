@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <radialGradient id="peachGrad" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#ffa566;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d87a33;stop-opacity:1" />
+    </radialGradient>
+    <filter id="fuzzy">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="#0b040a"/>
+  <circle cx="400" cy="300" r="140" fill="url(#peachGrad)" filter="url(#fuzzy)"/>
+  <ellipse cx="380" cy="280" rx="50" ry="40" fill="#ffb380" opacity="0.6"/>
+  <path d="M 400 160 Q 385 140 395 120 Q 400 135 405 120 Q 415 140 400 160" fill="#8b6f47"/>
+  <text x="400" y="550" font-size="24" font-family="Montserrat, sans-serif" fill="#d0a3c2" text-anchor="middle">The Velvet Peach</text>
+</svg>

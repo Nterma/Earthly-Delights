@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Earthly Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89;
+            --secondary-accent: #9d4edd;
+            --tertiary-accent: #ff477e;
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            filter: url(#liquid-filter);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15vw, 15vh) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0.5; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 4, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 123, 137, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            margin-top: 120px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-method {
+            background: rgba(26, 10, 22, 0.6);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+        }
+
+        .contact-method h3 {
+            color: var(--primary-accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-method p {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .contact-method a {
+            color: var(--primary-accent);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-method a:hover {
+            opacity: 0.8;
+        }
+
+        .contact-method img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form {
+            background: rgba(26, 10, 22, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 123, 137, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form h2 {
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(11, 4, 10, 0.8);
+            border: 1px solid rgba(255, 123, 137, 0.2);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(208, 163, 194, 0.6);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--tertiary-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 123, 137, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 123, 137, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .response-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+            text-align: center;
+        }
+
+        .response-message.success {
+            background: rgba(100, 200, 100, 0.2);
+            color: #64c864;
+            border: 1px solid rgba(100, 200, 100, 0.3);
+        }
+
+        .response-message.error {
+            background: rgba(255, 123, 137, 0.2);
+            color: var(--primary-accent);
+            border: 1px solid rgba(255, 123, 137, 0.3);
+        }
+
+        .response-message.show {
+            display: block;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            background: rgba(11, 4, 10, 0.95);
+            border-top: 1px solid rgba(255, 123, 137, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Earthly Delights</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="page-title">Get In Touch 😏</h1>
+        <p class="page-subtitle">Have questions? We'd love to hear from you. Reach out anytime, and we'll respond with discretion and care.</p>
+    </header>
+
+    <section>
+        <div style="margin-bottom: 3rem; border-radius: 15px; overflow: hidden;">
+            <img src="assets/images/support-banner.svg" alt="Contact Us" style="width: 100%; height: 350px; object-fit: cover;">
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info reveal">
+                <div class="contact-method">
+                    <img src="assets/images/support-banner.svg" alt="Email" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>✉️ Email</h3>
+                    <p><a href="mailto:contact@earthlydelights.com">contact@earthlydelights.com</a></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--tertiary-accent);">💌 We won't judge</p>
+                </div>
+
+                <div class="contact-method">
+                    <img src="assets/images/support-banner.svg" alt="Live Chat" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>💬 Live Chat</h3>
+                    <p>Available Monday-Friday, 9AM-6PM EST</p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--tertiary-accent);">Talk dirty (or not) 😉</p>
+                </div>
+
+                <div class="contact-method">
+                    <img src="assets/images/farm-banner.svg" alt="Phone" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>📞 Phone</h3>
+                    <p><a href="tel:+1-800-HARVEST-1">+1 (800) HARVEST-1</a></p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Monday-Friday, 10AM-8PM EST</p>
+                </div>
+
+                <div class="contact-method">
+                    <img src="assets/images/farm-banner.svg" alt="Address" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>🌐 Address</h3>
+                    <p>Earthly Delights HQ<br>
+                    123 Harvest Lane<br>
+                    Portland, OR 97201<br>
+                    United States</p>
+                </div>
+
+                <div class="contact-method">
+                    <img src="assets/images/support-banner.svg" alt="Privacy" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>🔒 Privacy Note</h3>
+                    <p>All communications are treated with complete discretion. Your privacy is our priority.</p>
+                </div>
+            </div>
+
+            <div class="contact-form reveal">
+                <h2>Send us a Message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required placeholder="How can we help?">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Your message here..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+
+                    <div id="responseMessage" class="response-message"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Reveal Animations
+            const reveals = document.querySelectorAll(".reveal");
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => revealOnScroll.observe(reveal));
+
+            // Scroll animation
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.offsetHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                
+                const minSpeed = 1;
+                const maxSpeed = 3;
+                const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+                document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+            });
+
+            // Form Handling
+            const contactForm = document.getElementById('contactForm');
+            const responseMessage = document.getElementById('responseMessage');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+
+                    // Simulate form submission (in a real app, this would send to a server)
+                    console.log('Form submitted:', { name, email, subject, message });
+
+                    // Show success message
+                    responseMessage.textContent = 'Thank you for your message! We\'ll get back to you within 24-48 hours.';
+                    responseMessage.classList.add('success', 'show');
+
+                    // Reset form
+                    contactForm.reset();
+
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        responseMessage.classList.remove('show');
+                    }, 5000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+<script>
+    (function(){
+        const placeholderSVG = encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='%231a0a16'/><text x='50%' y='50%' fill='%23d0a3c2' font-family='Montserrat, sans-serif' font-size='28' text-anchor='middle' dominant-baseline='middle'>Image unavailable</text></svg>");
+        function applyFallback(img){
+            if(img._fallbackApplied) return;
+            img._fallbackApplied = true;
+            img.src = 'data:image/svg+xml;utf8,' + placeholderSVG;
+            img.style.objectFit = 'cover';
+        }
+        try{
+            document.querySelectorAll('img').forEach(img => img.addEventListener('error', ()=>applyFallback(img)));
+            const mo = new MutationObserver(mutations=>{
+                mutations.forEach(m=>{
+                    m.addedNodes.forEach(node=>{
+                        if(node && node.tagName === 'IMG') node.addEventListener('error', ()=>applyFallback(node));
+                        else if(node && node.querySelectorAll) node.querySelectorAll('img').forEach(i=>i.addEventListener('error', ()=>applyFallback(i)));
+                    });
+                });
+            });
+            mo.observe(document.body, {childList: true, subtree: true});
+        }catch(e){
+            console.warn('Image fallback init failed', e);
+        }
+    })();
+</script>

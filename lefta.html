@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthly Delights | Nature's Intimate Harvest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-color: #0b040a;
+            --surface-color: #1a0a16;
+            --primary-accent: #ff7b89; /* Flush Pink / Peach */
+            --secondary-accent: #9d4edd; /* Deep Purple */
+            --tertiary-accent: #ff477e; /* Hot Climax Pink */
+            --text-light: #f9f6f0;
+            --text-muted: #d0a3c2;
+            --rhythm-speed: 1; /* Adjusted via JS on scroll */
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           SENSUAL LIQUID BACKGROUND ANIMATION
+           ========================================= */
+        .sensual-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: var(--bg-color);
+            overflow: hidden;
+            /* The SVG filter makes the shapes "melt" together like fluid */
+            filter: url(#liquid-filter); 
+        }
+
+        /* Dark overlay so text remains readable */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(11, 4, 10, 0.6);
+            z-index: -1;
+            backdrop-filter: blur(20px);
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+
+        /* Shape 1: The Rhythm (Deep, slow thrusting motion) */
+        .shape-rhythm {
+            width: 45vw; height: 45vw;
+            background: var(--secondary-accent);
+            top: -10%; left: -10%;
+            animation: thrust calc(8s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        /* Shape 2: The Curve (Grinding, circular motion) */
+        .shape-curve {
+            width: 50vw; height: 40vw;
+            background: var(--primary-accent);
+            bottom: -20%; right: -10%;
+            animation: grind calc(12s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        /* Shape 3: The Pulse (Expanding/contracting heat) */
+        .shape-pulse {
+            width: 35vw; height: 35vw;
+            background: var(--tertiary-accent);
+            top: 40%; left: 30%;
+            animation: pulse calc(6s / var(--rhythm-speed)) infinite ease-in-out alternate;
+        }
+
+        @keyframes thrust {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes grind {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(-15vw, -10vh) rotate(45deg) scale(1.1); }
+            100% { transform: translate(-30vw, -20vh) rotate(90deg) scale(0.9); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.4); opacity: 0.9; }
+        }
+
+        /* =========================================
+           UI & CONTENT STYLES
+           ========================================= */
+        nav {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 123, 137, 0.4);
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            background: linear-gradient(45deg, #ff7b89, #fff, #9d4edd);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: textShimmer 4s linear infinite, fadeUp 1.2s forwards 0.2s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes textShimmer {
+            to { background-position: 200% center; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .cta-btn {
+            margin-top: 2.5rem;
+            padding: 1rem 3rem;
+            background: transparent;
+            border: 2px solid var(--primary-accent);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-btn:hover {
+            background: var(--primary-accent);
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 123, 137, 0.6);
+            transform: scale(1.05);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            opacity: 0;
+            animation: fadeUp 1.2s forwards 1s;
+        }
+        
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--primary-accent);
+            border-radius: 50%;
+            animation: scrollBounce 2s infinite cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        section {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(255, 123, 137, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 10, 22, 0.5);
+            backdrop-filter: blur(15px);
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 123, 137, 0.2);
+            text-align: center;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 20px 40px rgba(255, 123, 137, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: hoverFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes hoverFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: brightness(0.7) contrast(1.2) saturate(1.2);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1.1) saturate(1.4);
+        }
+
+        .product-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 3rem 2rem 2rem;
+            background: linear-gradient(to top, #0b040a 0%, rgba(11,4,10,0.8) 50%, transparent 100%);
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-info {
+            transform: translateY(0);
+        }
+
+        .product-name {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            color: var(--primary-accent);
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .safety-banner {
+            background: linear-gradient(135deg, rgba(26,10,22,0.8), rgba(157,78,221,0.2));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 4rem;
+            text-align: center;
+            border: 1px solid rgba(255, 123, 137, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .safety-list {
+            list-style: none;
+            margin-top: 2.5rem;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .safety-list li {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+
+        .safety-list li::before {
+            content: '💧';
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, 20px) scale(0.8); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .safety-banner { padding: 2rem; }
+            .hero-title { font-size: 2.8rem; }
+            .fluid-shape { filter: blur(25px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Filter for the Liquid/Metaball Effect -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -20" result="liquid" />
+            <feBlend in="SourceGraphic" in2="liquid" mode="normal" />
+        </filter>
+    </svg>
+
+    <!-- Sensual Fluid Background -->
+    <div class="sensual-bg-container">
+        <div class="fluid-shape shape-rhythm"></div>
+        <div class="fluid-shape shape-curve"></div>
+        <div class="fluid-shape shape-pulse"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav>
+        <div class="logo">Earthly Delights</div>
+    </nav>
+
+    <header>
+        <h1 class="hero-title">Nature's Most<br>Intimate Harvest.</h1>
+        <p class="hero-subtitle">Hand-selected, ergonomically flawless fruits and vegetables. 100% organic, zero batteries required. Welcome to the sensual side of the produce aisle.</p>
+        <button class="cta-btn" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">Explore the Harvest</button>
+        
+        <div class="scroll-indicator"></div>
+    </header>
+
+    <section id="about">
+        <div class="section-header reveal">
+            <h2 class="section-title">Why Go Natural?</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Mother Nature was the original toymaker. We're just the curators.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal" style="transition-delay: 0.1s;">
+                <div class="feature-icon">🌱</div>
+                <h3>100% Biodegradable</h3>
+                <p style="color: var(--text-muted); margin-top: 1rem;">From the earth, for your pleasure, and back to the earth. Compostable after climax. Mother knows best! 🌍</p>
+            </div>
+            <div class="feature-card reveal" style="transition-delay: 0.2s;">
+                <div class="feature-icon">📏</div>
+                <h3>Hand-Selected Girth</h3>
+                <p style="color: var(--text-muted); margin-top: 1rem;">Every piece of produce is meticulously measured and sorted for optimal ergonomic satisfaction. We're not afraid to go big. 😉</p>
+            </div>
+            <div class="feature-card reveal" style="transition-delay: 0.3s;">
+                <div class="feature-icon">🤫</div>
+                <h3>Discreet Delivery</h3>
+                <p style="color: var(--text-muted); margin-top: 1rem;">It just looks like your weekly farmer's market grocery haul. Your secret is safe with the salad. What happens in the garden, stays in the garden. 🤐</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="collection">
+        <div class="section-header reveal">
+            <h2 class="section-title">The Sensual Selection</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Browse our curated collection of naturally ribbed, flawlessly curved, and velvet-textured delights.</p>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card reveal" style="transition-delay: 0.1s;">
+                <img src="https://images.unsplash.com/photo-1614838634583-05f42220d911?auto=format&fit=crop&q=80&w=800" alt="The Imperial Eggplant" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Imperial Eggplant</h3>
+                    <p class="product-desc">Thick, perfectly curved, heavy in the hand. A real show-stopper! 👑</p>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&q=80&w=800" alt="The Classic Cucumber" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Classic Cucumber</h3>
+                    <p class="product-desc">Long, naturally textured, reliable and cooling. The trusty sidekick. 💚</p>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.3s;">
+                <img src="https://images.unsplash.com/photo-1528821128474-27f963b062bf?auto=format&fit=crop&q=80&w=800" alt="The Velvet Peach" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Velvet Peach</h3>
+                    <p class="product-desc">Soft, fuzzy, and undeniably sensual for external play. Pure bliss, naturally. 🍑</p>
+                </div>
+            </div>
+
+            <div class="product-card reveal" style="transition-delay: 0.4s;">
+                <img src="https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?auto=format&fit=crop&q=80&w=800" alt="The Bitter Melon" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-name">The Bitter Melon</h3>
+                    <p class="product-desc">Intensely ribbed for those who crave deep texture. Not for the faint of heart! 🔥</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="care">
+        <div class="safety-banner reveal">
+            <h2>Preparation & Aftercare</h2>
+            <p style="color: var(--text-muted); margin-top: 1rem; font-size: 1.1rem;">Nature is beautiful, but safety is sexy. Please follow our chef's recommendations before getting intimate with your produce.</p>
+            
+            <ul class="safety-list">
+                <li><strong>Wash Thoroughly:</strong> Rinse with warm water and mild soap before use.</li>
+                <li><strong>Dress It Up:</strong> ALWAYS use a premium condom over your produce to prevent irritation.</li>
+                <li><strong>Temperature Play:</strong> Let refrigerated items sit for 20 mins, or use cold for heightened sensation.</li>
+                <li><strong>One Time Use:</strong> Do not eat the produce after use. Toss it in the compost bed!</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Earthly Delights. Hand-picked with love. 🍆 🍑 Sustainably sourced, responsibly enjoyed.</p>
+        <p style="margin-top: 10px; opacity: 0.5; font-size: 0.8rem;">*For novelty and entertainment purposes. Play safely and responsibly. Our farmers thank you for your business. 🚜</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Reveal Animations on Scroll
+            const reveals = document.querySelectorAll(".reveal");
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => revealOnScroll.observe(reveal));
+
+            // 2. Interactive Background: "Building Climax" effect
+            // As you scroll down, the fluid animation speeds up, simulating building rhythm/pleasure.
+            window.addEventListener('scroll', () => {
+                // Calculate scroll percentage (0 to 1)
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.offsetHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                
+                // Map scroll percentage to a speed multiplier
+                // Starts at 1x speed, builds up to 3x speed at the bottom of the page
+                const minSpeed = 1;
+                const maxSpeed = 3;
+                const currentSpeed = minSpeed + (scrollPercent * (maxSpeed - minSpeed));
+
+                // Apply to CSS variable
+                document.documentElement.style.setProperty('--rhythm-speed', currentSpeed);
+            });
+        });
+    </script>
+</body>
+</html>

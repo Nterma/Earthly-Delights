@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+  <defs>
+    <linearGradient id="supportBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a1a6f;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2d0f4a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a2e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#supportBg)"/>
+  <circle cx="200" cy="100" r="40" fill="#9d4edd" opacity="0.6"/>
+  <circle cx="400" cy="250" r="50" fill="#9d4edd" opacity="0.4"/>
+  <circle cx="600" cy="80" r="45" fill="#9d4edd" opacity="0.5"/>
+  <circle cx="800" cy="220" r="55" fill="#9d4edd" opacity="0.4"/>
+  <circle cx="1000" cy="150" r="42" fill="#9d4edd" opacity="0.6"/>
+  <rect x="300" y="150" width="600" height="120" fill="rgba(255, 123, 137, 0.1)" rx="10"/>
+  <text x="600" y="220" font-size="36" font-family="Playfair Display, serif" fill="#d0a3c2" text-anchor="middle" font-weight="bold">We're Here to Help</text>
+</svg>
